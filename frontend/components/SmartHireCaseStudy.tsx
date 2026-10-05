@@ -18,6 +18,16 @@ export default function SmartHireCaseStudy() {
     'Dashboards and notifications deliver updates in near real time to stakeholders.',
   ];
 
+  const architectureStages = [
+    'Resume',
+    'Document Processing',
+    'AI Extraction',
+    'Embeddings',
+    'Vector Search',
+    'Matching',
+    'Workflow',
+  ];
+
   return (
     <section className="max-w-5xl mx-auto px-6 py-20 text-ink">
       <div className="mb-12">
@@ -32,6 +42,24 @@ export default function SmartHireCaseStudy() {
           job discovery, candidate matching, and workflow automation through AI-driven insights and
           event-based service orchestration.
         </p>
+      </div>
+
+      <div className="mb-12 rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(217,143,79,0.1),rgba(18,27,46,0.82))] p-5 md:p-8">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <h2 className="font-display text-2xl text-ink md:text-3xl">Architecture path</h2>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-signal">
+            Document to decision support
+          </span>
+        </div>
+        <div className="smart-flow" aria-label="Resume to workflow architecture path">
+          {architectureStages.map((stage, index) => (
+            <div key={stage} className="smart-flow-step">
+              <span className="smart-flow-index">0{index + 1}</span>
+              <span className="smart-flow-label">{stage}</span>
+              {index < architectureStages.length - 1 && <span className="smart-flow-arrow" aria-hidden="true">→</span>}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 mb-12">

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { projects, getProject } from '../../../libs/projects';
 import SmartHireCaseStudy from '../../../components/SmartHireCaseStudy';
+import AngularTodoCaseStudy from '../../../components/AngularTodoCaseStudy';
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -32,7 +33,9 @@ export default async function ProjectPage({
 
   return (
     <main className="min-h-screen pt-32">
-      {slug === 'smart-hire' || slug === 'smart-hire-architecture-overview' ? (
+      {slug === 'angular-todo-app' ? (
+        <AngularTodoCaseStudy />
+      ) : slug === 'smart-hire' || slug === 'smart-hire-architecture-overview' ? (
         <SmartHireCaseStudy />
       ) : (
         <section className="max-w-3xl mx-auto px-6 py-20">

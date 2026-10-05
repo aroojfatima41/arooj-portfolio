@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 
 type Role = {
   period: string;
@@ -83,6 +84,13 @@ const education: Role[] = [
 ];
 
 function TimelineNode({ role }: { role: Role }) {
+  const monogram = role.org
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
     <article className="relative pb-8 last:pb-0 md:pl-28">
       <div className="absolute left-3 top-0 hidden h-full w-px bg-white/10 md:block" />
@@ -111,46 +119,58 @@ function TimelineNode({ role }: { role: Role }) {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.5 }}
-        className="rounded-2xl border border-white/10 bg-panel/70 p-6 transition-colors duration-300 hover:border-copper/30 md:p-7"
+        className="group rounded-2xl border border-white/10 bg-panel/70 p-2 transition-colors duration-300 hover:border-copper/30 md:p-3"
       >
-        <div className="mb-5 flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-copper">
-              {role.org}
-            </p>
-            <h3 className="font-display text-xl font-semibold leading-tight text-ink md:text-2xl">
-              {role.title}
-            </h3>
-          </div>
-          <span className="w-fit rounded-full border border-signal/25 bg-signal/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-signal">
-            {role.period}
-          </span>
-        </div>
-
-        <ul className="space-y-3">
-          {role.achievements.map((achievement, i) => (
-            <li key={i} className="flex gap-3 font-body text-sm leading-relaxed text-muted md:text-base">
-              <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
-              <span>{achievement}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6 border-t border-white/10 pt-5">
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-copper">
-            Skills & technologies
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {role.skills.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-copper/25 bg-copper/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-copper"
-              >
-                {skill}
+        <details open>
+          <summary className="flex cursor-pointer list-none items-center gap-4 rounded-xl p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal md:p-5 [&::-webkit-details-marker]:hidden">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-copper/30 bg-copper/10 font-mono text-xs font-semibold text-copper">
+              {monogram}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="mb-1 block font-mono text-xs uppercase tracking-[0.18em] text-copper">
+                {role.org}
               </span>
-            ))}
+              <span className="block font-display text-xl font-semibold leading-tight text-ink md:text-2xl">
+                {role.title}
+              </span>
+            </span>
+            <span className="hidden rounded-full border border-signal/25 bg-signal/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-signal sm:block">
+              {role.period}
+            </span>
+            <ChevronDown className="details-chevron h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
+          </summary>
+
+          <div className="border-t border-white/10 px-4 pb-4 pt-5 md:px-5 md:pb-5">
+            <span className="mb-5 inline-block rounded-full border border-signal/25 bg-signal/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-signal sm:hidden">
+              {role.period}
+            </span>
+
+            <ul className="space-y-3">
+              {role.achievements.map((achievement, i) => (
+                <li key={i} className="flex gap-3 font-body text-sm leading-relaxed text-muted md:text-base">
+                  <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                  <span>{achievement}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-copper">
+                Skills & technologies
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {role.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-full border border-copper/25 bg-copper/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-copper"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
       </motion.div>
     </article>
   );
@@ -158,13 +178,13 @@ function TimelineNode({ role }: { role: Role }) {
 
 export default function Experience() {
   return (
-    <section className="relative border-t border-panel px-6 py-32">
+    <section id="experience" className="section-rule relative px-6 py-28 md:py-36">
       <div className="mx-auto max-w-4xl">
-        <p className="font-mono text-signal text-sm tracking-widest uppercase mb-4">
+        <p className="section-kicker mb-4">
           Experience
         </p>
         <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display font-semibold text-3xl text-ink md:text-4xl">
+          <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
             The trace, start to now.
           </h2>
           <p className="max-w-sm text-sm leading-relaxed text-muted">
@@ -177,8 +197,8 @@ export default function Experience() {
           ))}
         </div>
 
-        <div className="mt-24 border-t border-panel pt-16">
-          <p className="font-mono text-signal text-sm tracking-widest uppercase mb-4">
+        <div id="education" className="mt-24 border-t border-panel pt-16">
+          <p className="section-kicker mb-4">
             Education
           </p>
           <h2 className="mb-12 font-display text-3xl font-semibold text-ink md:text-4xl">

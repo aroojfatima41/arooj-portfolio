@@ -1,15 +1,20 @@
-import Image from "next/image";
+import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Experience from '@/components/Experience';
 import Projects from "@/components/Projects";
+import EngineeringStack from '@/components/EngineeringStack';
+import FlagshipCaseStudy from '@/components/FlagshipCaseStudy';
 
 export default function Home() {
   return (
-    <main>
+    <main id="top">
+      <Header />
       <Hero />
       <About />
       <Experience />
+      <EngineeringStack />
+      <FlagshipCaseStudy />
       <Projects />
     </main>
   );
