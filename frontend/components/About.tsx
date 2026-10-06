@@ -4,7 +4,7 @@ export default function About() {
   const specs = [
     { label: 'Experience', value: '7+ years' },
     { label: 'Core stack', value: 'React, TypeScript, Next.js' },
-    { label: 'Now building', value: 'FastAPI, AI/ML systems' },
+    { label: 'Systems depth', value: 'Microservices, Docker, Temporal' },
     { label: 'Foundation', value: 'B.Sc. Electrical Engineering, NUST' },
   ];
 
@@ -22,13 +22,13 @@ export default function About() {
           <p className="mb-4 max-w-2xl font-body text-lg leading-relaxed text-muted md:text-xl">
             My engineering foundation started with an Electrical Engineering degree,
             understanding how systems connect at their lowest level. That instinct carried
-            into 7+ years building production frontend systems, from micro-frontend
-            architectures to full product platforms.
+            into 7+ years specializing in production frontend systems, from responsive product
+            interfaces to micro-frontend architectures and technical leadership.
           </p>
           <p className="max-w-2xl font-body text-lg leading-relaxed text-muted md:text-xl">
-            I am now extending that same systems thinking into the backend and AI layer,
-            building the infrastructure that powers intelligent applications, not just the
-            interfaces on top of them.
+            I bring that frontend depth together with backend microservices, Docker, and Temporal
+            workflow orchestration. AI is an additional tool in my toolkit, not the center of my
+            engineering focus.
           </p>
         </div>
 

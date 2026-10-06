@@ -4,20 +4,29 @@ import { motion } from 'framer-motion';
 
 const groups = [
   {
-    label: 'Frontend',
-    items: ['React', 'TypeScript', 'Next.js', 'JavaScript'],
+    label: 'Frontend Engineering',
+    items: ['React', 'TypeScript', 'Next.js', 'JavaScript', 'Angular', 'Component Systems'],
+    size: 'lg:col-span-2',
   },
   {
-    label: 'Architecture',
-    items: ['Micro Frontends', 'Nx', 'Single-SPA', 'Webpack'],
+    label: 'Frontend Architecture',
+    items: ['Micro Frontends', 'Nx', 'Single-SPA', 'Webpack 5', 'Performance'],
+    size: 'lg:col-span-2',
   },
   {
-    label: 'Quality',
+    label: 'Backend & Workflows',
+    items: ['Microservices', 'Docker', 'Temporal', 'FastAPI', 'Kafka', 'PostgreSQL'],
+    size: 'lg:col-span-2',
+  },
+  {
+    label: 'Quality & Delivery',
     items: ['Jest', 'React Testing Library', 'CI/CD'],
+    size: 'lg:col-span-1',
   },
   {
-    label: 'AI / Backend',
-    items: ['FastAPI', 'PostgreSQL', 'pgvector', 'Kafka', 'Temporal', 'Groq LLM'],
+    label: 'Applied AI',
+    items: ['Embeddings', 'Vector Search', 'LLM Integration'],
+    size: 'lg:col-span-1',
   },
 ];
 
@@ -27,7 +36,7 @@ export default function EngineeringStack() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
           <p className="section-kicker mb-4">Engineering stack</p>
-          <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
+          <h2 className="whitespace-nowrap font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
             The tools behind the work.
           </h2>
         </div>
@@ -40,7 +49,7 @@ export default function EngineeringStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="rounded-2xl border border-white/10 bg-panel/55 p-5 transition-colors duration-300 hover:border-copper/35"
+              className={`rounded-2xl border border-white/10 bg-panel/55 p-5 transition-colors duration-300 hover:border-copper/35 ${group.size} ${group.label === 'Applied AI' ? 'opacity-75' : ''}`}
             >
               <div className="mb-6 flex items-center justify-between">
                 <h3 className="font-display text-xl font-semibold text-ink">{group.label}</h3>

@@ -4,7 +4,12 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowDownRight, ArrowRight } from 'lucide-react';
 
-const focusAreas = ['Frontend architecture', 'AI product interfaces', 'Design systems', 'System design'];
+const focusAreas = [
+  'Frontend engineering',
+  'Micro-frontend architecture',
+  'Backend & distributed systems',
+  'Applied AI',
+];
 
 export default function Hero() {
   return (
@@ -28,28 +33,30 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 font-mono text-xs uppercase tracking-[0.18em] text-ink/80 md:text-sm">
-            React · TypeScript · Micro Frontends · AI
+            React · TypeScript · Micro Frontends · Backend Systems
           </p>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted md:text-xl">
-            I build scalable enterprise interfaces and AI-powered products, with 7+ years of experience turning complex systems into reliable, intuitive experiences.
+            I build scalable, polished frontend experiences and lead frontend architecture, with 7+ years delivering enterprise products. I also work across backend microservices and workflow systems, with AI as a supporting capability.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="#work"
-              className="inline-flex items-center gap-2 rounded-xl bg-copper px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-[#0b1220] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-            >
-              View my work
-              <ArrowRight size={15} aria-hidden="true" />
-            </Link>
-            <Link
-              href="#experience"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-ink transition-colors duration-200 hover:border-signal/50 hover:text-signal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-            >
-              Explore experience
-              <ArrowDownRight size={15} aria-hidden="true" />
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="#work"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#5EEAD4] px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-[#0B1220] transition-colors duration-200 hover:bg-[#8AF2E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+              >
+                View my work
+                <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+              <Link
+                href="#experience"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-ink transition-colors duration-200 hover:border-signal/50 hover:text-signal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+              >
+                Explore experience
+                <ArrowDownRight size={15} aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3" aria-label="Areas of focus">
@@ -87,7 +94,7 @@ export default function Hero() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Stack</p>
-                  <p className="mt-3 text-lg font-medium text-ink">Frontend + AI</p>
+                  <p className="mt-3 text-lg font-medium text-ink">Frontend + Systems</p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Approach</p>
@@ -98,7 +105,7 @@ export default function Hero() {
               <div className="rounded-2xl border border-copper/20 bg-copper/5 p-4">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-copper">Build strength</p>
                 <p className="mt-3 text-base leading-relaxed text-ink/90">
-                  Shipping high-quality interfaces with backend awareness, AI integration, and scalable architecture thinking.
+                  Leading frontend delivery, with the backend and distributed-systems depth to build complete products.
                 </p>
               </div>
             </div>

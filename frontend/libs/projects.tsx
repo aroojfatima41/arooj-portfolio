@@ -16,14 +16,6 @@ export const projects: Project[] = [
     stack: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Kafka', 'Temporal', 'Docker', 'Groq LLM'],
   },
   {
-    slug: 'this-portfolio',
-    name: 'This Portfolio',
-    tagline: 'AI-assisted personal site',
-    summary:
-      'A Next.js App Router site with an AI chatbox grounded in my own resume data, plus a resume-job matching tool.',
-    stack: ['Next.js', 'FastAPI', 'Sentence Transformers', 'FAISS'],
-  },
-  {
     slug: 'angular-todo-app',
     name: 'Angular Todo App',
     tagline: 'Modern frontend practice project',
