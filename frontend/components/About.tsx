@@ -5,7 +5,7 @@ export default function About() {
     { label: 'Experience', value: '7+ years' },
     { label: 'Core stack', value: 'React, TypeScript, Next.js' },
     { label: 'Systems depth', value: 'Microservices, Docker, Temporal' },
-    { label: 'Foundation', value: 'B.Sc. Electrical Engineering, NUST' },
+    { label: 'Foundation', value: 'B.E Electrical Engineering, NUST' },
   ];
 
   return (

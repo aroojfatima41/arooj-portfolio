@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowDownRight, ArrowRight } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Download } from 'lucide-react';
 
 const focusAreas = [
   'Frontend engineering',
@@ -56,6 +56,14 @@ export default function Hero() {
                 Explore experience
                 <ArrowDownRight size={15} aria-hidden="true" />
               </Link>
+              <a
+                href="/arooj-fatima-resume.pdf"
+                download="Arooj-Fatima-Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-xl border border-signal/40 bg-signal/10 px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-signal transition-colors duration-200 hover:border-signal hover:bg-signal/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+              >
+                Download resume
+                <Download size={15} aria-hidden="true" />
+              </a>
             </div>
           </div>
 

@@ -62,9 +62,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[number]; i
 }
 
 export default function Projects() {
-  const featuredProjects = projects.filter(
-    (project) => project.slug !== 'smart-hire-architecture-overview',
-  );
+  const featuredProjects = projects.filter((project) => project.slug === 'smart-hire');
 
   return (
     <section id="work" className="section-rule relative px-6 py-28 md:py-36">

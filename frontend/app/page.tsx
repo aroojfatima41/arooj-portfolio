@@ -6,6 +6,8 @@ import Projects from "@/components/Projects";
 import EngineeringStack from '@/components/EngineeringStack';
 import FlagshipCaseStudy from '@/components/FlagshipCaseStudy';
 import HrAutomationCaseStudy from '@/components/HrAutomationCaseStudy';
+import LearningPaths from '@/components/LearningPaths';
+import Contact from '@/components/Contact';
 
 export default function Home() {
   return (
@@ -18,6 +20,8 @@ export default function Home() {
       <FlagshipCaseStudy />
       <HrAutomationCaseStudy />
       <Projects />
+      <LearningPaths />
+      <Contact />
     </main>
   );
 }

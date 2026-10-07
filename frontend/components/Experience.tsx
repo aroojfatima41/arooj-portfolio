@@ -76,7 +76,7 @@ const roles: Role[] = [
 const education: Role[] = [
   {
     period: '2014 — 2018',
-    title: 'B.Sc. Electrical Engineering',
+    title: 'B.E Electrical Engineering',
     org: 'NUST CEME',
     achievements: ['Gold Medal, FSC-1. Runner-up, Best Final Year Project.'],
     skills: ['Electrical Engineering', 'Systems Thinking', 'Final Year Project'],
