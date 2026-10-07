@@ -16,7 +16,14 @@ export default function Contact() {
 
     const form = event.currentTarget;
     const values = new FormData(form);
-    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
+    const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+    const apiUrl = (configuredApiUrl || (process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : '')).replace(/\/$/, '');
+
+    if (!apiUrl) {
+      setState('error');
+      setStatusMessage('Contact service is not configured for this deployment.');
+      return;
+    }
 
     try {
       const response = await fetch(`${apiUrl}/contact`, {
