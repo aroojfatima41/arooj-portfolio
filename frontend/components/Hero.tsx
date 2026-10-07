@@ -4,16 +4,30 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowDownRight, ArrowRight, Download } from 'lucide-react';
 
-const focusAreas = [
-  'Frontend engineering',
-  'Micro-frontend architecture',
-  'Backend & distributed systems',
-  'Applied AI',
+const expertise = [
+  {
+    level: 'Core expertise',
+    title: 'Frontend engineering',
+    detail: 'React · TypeScript · Next.js · Micro-frontends',
+    primary: true,
+  },
+  {
+    level: 'Systems depth',
+    title: 'Backend workflows',
+    detail: 'Microservices · Docker · Temporal',
+    primary: false,
+  },
+  {
+    level: 'Supporting capability',
+    title: 'Applied AI',
+    detail: 'Embeddings · Vector search · LLM integration',
+    primary: false,
+  },
 ];
 
 export default function Hero() {
   return (
-    <section className="hero-grid relative isolate flex min-h-[92vh] items-center overflow-hidden px-6 pb-20 pt-32 md:pt-36">
+    <section id="about" className="hero-grid relative isolate flex min-h-[92vh] items-center overflow-hidden px-6 pb-20 pt-32 md:pt-36">
       <div className="hero-glow absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(217,143,79,0.16),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(94,234,212,0.12),_transparent_28%)]" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
@@ -32,18 +46,16 @@ export default function Hero() {
             <span className="mt-2 block text-copper">Engineer.</span>
           </h1>
 
-          <p className="mt-6 font-mono text-xs uppercase tracking-[0.18em] text-ink/80 md:text-sm">
-            React · TypeScript · Micro Frontends · Backend Systems
-          </p>
-
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted md:text-xl">
-            I build scalable, polished frontend experiences and lead frontend architecture, with 7+ years delivering enterprise products. I also work across backend microservices and workflow systems, with AI as a supporting capability.
+            I lead frontend delivery for enterprise products, with 7+ years across React, TypeScript,
+            and micro-frontend architecture. Electrical engineering shaped how I reason across systems;
+            I apply that to backend services and durable workflows with Docker and Temporal.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <div className="flex flex-wrap gap-3">
               <Link
-                href="#work"
+                href="#projects"
                 className="inline-flex items-center gap-2 rounded-xl bg-[#5EEAD4] px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-[#0B1220] transition-colors duration-200 hover:bg-[#8AF2E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
               >
                 View my work
@@ -67,14 +79,17 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3" aria-label="Areas of focus">
-            {focusAreas.map((area) => (
-              <span
-                key={area}
-                className="rounded-full border border-copper/30 bg-white/[0.02] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink/90"
-              >
-                {area}
-              </span>
+          <div className="mt-8 space-y-3" aria-label="Expertise">
+            {expertise.map((area) => (
+              <div key={area.title} className={`flex flex-col gap-1 border-l-2 pl-4 sm:flex-row sm:items-baseline sm:gap-4 ${area.primary ? 'border-signal' : 'border-white/15'}`}>
+                <span className={`min-w-36 font-mono text-[9px] uppercase tracking-[0.14em] ${area.primary ? 'text-signal' : 'text-muted'}`}>
+                  {area.level}
+                </span>
+                <span className={`font-medium ${area.primary ? 'text-ink' : 'text-ink/85'}`}>
+                  {area.title}
+                </span>
+                <span className="text-sm text-muted">{area.detail}</span>
+              </div>
             ))}
           </div>
         </motion.div>

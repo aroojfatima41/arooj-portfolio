@@ -18,15 +18,15 @@ const screenshots = [
   },
 ];
 
-export default function HrAutomationCaseStudy() {
+export default function HrAutomationCaseStudy({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="section-rule px-6 py-24 md:py-32">
+    <section className={embedded ? 'mt-20 border-t border-white/10 pt-16' : 'section-rule px-6 py-24 md:py-32'}>
       <div className="mx-auto max-w-6xl">
         <header className="mb-12 max-w-3xl">
-          <p className="section-kicker mb-4">Flagship case study · Emumba</p>
-          <h1 className="font-display text-4xl font-semibold leading-tight text-ink md:text-6xl">
+          <p className="section-kicker mb-4">Emumba · HR Automations</p>
+          <h2 className="font-display text-4xl font-semibold leading-tight text-ink md:text-6xl">
             HR Automation Suite
-          </h1>
+          </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted md:text-xl">
             A connected set of tools that streamlines employee operations, from onboarding and
             recognition to interactive office seating and team workflows.

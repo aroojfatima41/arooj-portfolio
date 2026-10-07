@@ -2,6 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+
+type Screenshot = {
+  title: string;
+  src: string;
+  alt: string;
+};
 
 type Role = {
   period: string;
@@ -9,6 +16,7 @@ type Role = {
   org: string;
   achievements: string[];
   skills: string[];
+  screenshots?: Screenshot[];
 };
 
 const roles: Role[] = [
@@ -17,23 +25,29 @@ const roles: Role[] = [
     title: 'Lead Frontend Engineer, HR Automations',
     org: 'Emumba',
     achievements: [
-      'Owned end-to-end frontend delivery for internal HR tools using React 19, Next.js App Router, server components, and client components.',
-      'Built candidate onboarding, recognition posts, and responsive two-floor seating plan experiences with interactive seat-level assignment.',
-      'Implemented BambooHR and Google Sheets integrations that validate and auto-generate employee IDs from webhook-triggered hiring events.',
-      'Connected Pinpoint ATS and Slack webhooks for hired-candidate syncs, notifications, branded recognition posts, and real @mentions.',
-      'Used DynamoDB-backed seat assignments, audit logs, bulk allocation, recurring patterns, temporary expiry, and duplicate-notification prevention.',
-      'Used GitHub Copilot, Cursor AI, Codex, and Gemini throughout the feature lifecycle to accelerate delivery and iteration.',
+      'Led frontend delivery for internal HR tools with React 19 and Next.js.',
+      'Shipped onboarding, recognition, and interactive two-floor seating.',
+      'Automated employee ID generation through BambooHR, Google Sheets, and hiring webhooks.',
+      'Connected Pinpoint ATS and Slack for candidate syncs, notifications, and recognition posts.',
+      'Built DynamoDB-backed seat assignments, audit logs, bulk allocation, and temporary expiry.',
     ],
-    skills: [
-      'React 19',
-      'Next.js App Router',
-      'TypeScript',
-      'Server Components',
-      'BambooHR',
-      'Google Sheets',
-      'Slack Webhooks',
-      'Pinpoint ATS',
-      'DynamoDB',
+    skills: ['React 19', 'Next.js', 'TypeScript', 'DynamoDB', 'BambooHR', 'Slack'],
+    screenshots: [
+      {
+        title: 'HR Suite',
+        src: '/hr-automation/suite-home.png',
+        alt: 'HR Automation Suite home page with links to employee tools',
+      },
+      {
+        title: 'Recognition',
+        src: '/hr-automation/recognitions.png',
+        alt: 'Employee recognition screen with QR code and recognition logs',
+      },
+      {
+        title: 'Seating Plan',
+        src: '/hr-automation/seating-plan.png',
+        alt: 'Interactive office seating plan with floor controls and seat status',
+      },
     ],
   },
   {
@@ -41,23 +55,34 @@ const roles: Role[] = [
     title: 'Senior Software Engineer (Frontend)',
     org: 'Extreme Networks (via Emumba)',
     achievements: [
-      'Owned the frontend codebase and led a team of 6–7 engineers within an approximately 80-person cross-functional UZTNA program.',
-      'Translated Figma designs into responsive, pixel-accurate React 18 and TypeScript interfaces across desktop, tablet, and mobile.',
-      'Built within a Single-SPA micro-frontend architecture using Nx and Webpack 5 across Public Cloud, Security Services, Access Management, and Inventory.',
-      'Developed admin dashboards with Material UI data tables, filters, modals, cards, charts, and multi-level navigation.',
-      'Improved performance through lazy loading, table virtualization, infinite scrolling, tree shaking, and Webpack bundle optimization.',
-      'Maintained 90%+ Jest and React Testing Library coverage, with CI/CD builds and tests gating every deployment.',
+      'Led 6–7 engineers in an approximately 80-person UZTNA program.',
+      'Delivered responsive React interfaces across desktop, tablet, and mobile.',
+      'Built micro-frontends across Public Cloud, Security Services, Access Management, and Inventory.',
+      'Improved performance with lazy loading, virtualization, infinite scrolling, and bundle optimization.',
+      'Maintained 90%+ Jest and React Testing Library coverage with CI-gated deployments.',
     ],
-    skills: [
-      'React 18',
-      'TypeScript',
-      'Nx',
-      'Single-SPA',
-      'Webpack 5',
-      'Material UI',
-      'Jest',
-      'React Testing Library',
-      'CI/CD',
+    skills: ['React 18', 'TypeScript', 'Nx', 'Single-SPA', 'Webpack 5', 'Jest'],
+    screenshots: [
+      {
+        title: 'Network Services',
+        src: '/extreme-networks/network-services.jpeg',
+        alt: 'Extreme Networks network services dashboard',
+      },
+      {
+        title: 'Applications',
+        src: '/extreme-networks/applications.jpeg',
+        alt: 'Extreme Networks applications dashboard',
+      },
+      {
+        title: 'Dashboard',
+        src: '/extreme-networks/dashboard.jpeg',
+        alt: 'Extreme Networks security dashboard',
+      },
+      {
+        title: 'Policy Editor',
+        src: '/extreme-networks/policy.jpeg',
+        alt: 'Extreme Networks network policy editor',
+      },
     ],
   },
   {
@@ -66,20 +91,10 @@ const roles: Role[] = [
     org: 'Aera Technology (via Emumba)',
     achievements: [
       'Improved build and load performance by 50% through Webpack and SWC optimization.',
-      'Implemented Figma-to-code enterprise screens, including Formik-powered forms and AG Grid data experiences.',
-      'Built and maintained reusable frontend components with clean, documented handoff for future development.',
+      'Delivered enterprise forms and data experiences with Formik and AG Grid.',
+      'Built reusable frontend components with documented handoff for ongoing development.',
     ],
-    skills: ['React', 'JavaScript', 'Formik', 'AG Grid', 'Webpack', 'SWC', 'Responsive UI'],
-  },
-];
-
-const education: Role[] = [
-  {
-    period: '2014 — 2018',
-    title: 'B.E Electrical Engineering',
-    org: 'NUST CEME',
-    achievements: ['Gold Medal, FSC-1. Runner-up, Best Final Year Project.'],
-    skills: ['Electrical Engineering', 'Systems Thinking', 'Final Year Project'],
+    skills: ['React', 'JavaScript', 'Formik', 'AG Grid'],
   },
 ];
 
@@ -169,6 +184,27 @@ function TimelineNode({ role }: { role: Role }) {
                 ))}
               </div>
             </div>
+
+            {role.screenshots && (
+              <div className={`mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 ${role.screenshots.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
+                {role.screenshots.map((screenshot) => (
+                  <figure key={screenshot.title} className="overflow-hidden rounded-xl border border-white/10 bg-[#101a2b]">
+                    <div className="relative aspect-[1.5] w-full bg-white">
+                      <Image
+                        src={screenshot.src}
+                        alt={screenshot.alt}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </div>
+                    <figcaption className="border-t border-white/10 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
+                      {screenshot.title}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
         </details>
       </motion.div>
@@ -179,37 +215,26 @@ function TimelineNode({ role }: { role: Role }) {
 export default function Experience() {
   return (
     <section id="experience" className="section-rule relative px-6 py-28 md:py-36">
-      <div className="mx-auto max-w-4xl">
-        <p className="section-kicker mb-4">
-          Experience
-        </p>
-        <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
-            The trace, start to now.
-          </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-muted">
-            A progression from product delivery to frontend architecture and technical leadership.
-          </p>
-        </div>
-        <div className="space-y-5">
-          {roles.map((role) => (
-            <TimelineNode key={role.title} role={role} />
-          ))}
-        </div>
-
-        <div id="education" className="mt-24 border-t border-panel pt-16">
+      <div className="mx-auto max-w-6xl">
+        <div>
           <p className="section-kicker mb-4">
-            Education
+            Experience
           </p>
-          <h2 className="mb-12 font-display text-3xl font-semibold text-ink md:text-4xl">
-            The foundation underneath the work.
-          </h2>
-          <div>
-            {education.map((entry) => (
-              <TimelineNode key={entry.title} role={entry} />
+          <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
+              The trace, start to now.
+            </h2>
+            <p className="max-w-sm text-sm leading-relaxed text-muted">
+              Roles, results, and the products behind them.
+            </p>
+          </div>
+          <div className="space-y-5">
+            {roles.map((role) => (
+              <TimelineNode key={role.title} role={role} />
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );

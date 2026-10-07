@@ -1,6 +1,6 @@
 'use client';
 
-export default function SmartHireCaseStudy() {
+export default function SmartHireCaseStudy({ homepage = false }: { homepage?: boolean }) {
   const services = [
     'User Service',
     'Job Service',
@@ -29,113 +29,90 @@ export default function SmartHireCaseStudy() {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto px-6 py-20 text-ink">
-      <div className="mb-12">
-        <p className="font-mono text-signal text-sm tracking-widest uppercase mb-4">
-          AI recruitment platform
-        </p>
-        <h1 className="font-display text-5xl md:text-6xl leading-tight mb-6">
-          Smart Hire
-        </h1>
-        <p className="max-w-3xl font-body text-muted text-lg leading-relaxed">
-          A distributed hiring platform designed to improve recruitment efficiency by connecting
-          job discovery, candidate matching, and workflow automation through AI-driven insights and
-          event-based service orchestration.
-        </p>
-      </div>
-
-      <div className="mb-12 rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(217,143,79,0.1),rgba(18,27,46,0.82))] p-5 md:p-8">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <h2 className="font-display text-2xl text-ink md:text-3xl">Architecture path</h2>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-signal">
-            Document to decision support
-          </span>
-        </div>
-        <div className="smart-flow" aria-label="Resume to workflow architecture path">
-          {architectureStages.map((stage, index) => (
-            <div key={stage} className="smart-flow-step">
-              <span className="smart-flow-index">0{index + 1}</span>
-              <span className="smart-flow-label">{stage}</span>
-              {index < architectureStages.length - 1 && <span className="smart-flow-arrow" aria-hidden="true">→</span>}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8 mb-12">
-        <div className="bg-panel border border-copper/20 rounded-xl p-7">
-          <h2 className="font-display text-2xl mb-5">Business value</h2>
-          <ul className="space-y-3 font-body text-muted leading-relaxed">
-            {services.map((service) => (
-              <li key={service} className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-copper shrink-0" />
-                <span>{service}</span>
-              </li>
-            ))}
-          </ul>
+    <section id="smart-hire" className="section-rule px-6 py-20 text-ink md:py-24">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-copper/25 bg-[linear-gradient(135deg,rgba(217,143,79,0.10),rgba(18,27,46,0.82)_42%,rgba(9,14,23,0.95))] p-6 md:p-10">
+        <div className="mb-10">
+          <p className="mb-4 font-mono text-sm uppercase tracking-widest text-signal">
+            AI recruitment platform
+          </p>
+          {homepage ? (
+            <h2 className="mb-5 font-display text-5xl leading-tight text-ink md:text-6xl">Smart Hire</h2>
+          ) : (
+            <h1 className="mb-5 font-display text-5xl leading-tight text-ink md:text-6xl">Smart Hire</h1>
+          )}
+          <p className="max-w-3xl font-body text-lg leading-relaxed text-muted">
+            A distributed hiring platform connecting job discovery, candidate matching, and recruitment workflows through event-driven services and durable orchestration.
+          </p>
         </div>
 
-        <div className="bg-panel border border-copper/20 rounded-xl p-7">
-          <h2 className="font-display text-2xl mb-5">Core stack</h2>
-          <div className="flex flex-wrap gap-2">
-            {[
-              'Python',
-              'FastAPI',
-              'PostgreSQL',
-              'pgvector',
-              'Kafka',
-              'Temporal',
-              'Docker',
-              'Groq LLM',
-            ].map((tech) => (
-              <span
-                key={tech}
-                className="font-mono text-xs text-copper border border-copper/30 rounded px-2 py-1"
-              >
-                {tech}
-              </span>
+        <div className="border-y border-white/10 py-7">
+          <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3">
+            <h3 className="font-display text-2xl text-ink md:text-3xl">Architecture path</h3>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-signal">
+              Document to decision support
+            </span>
+          </div>
+          <div className="smart-flow" aria-label="Resume to workflow architecture path">
+            {architectureStages.map((stage, index) => (
+              <div key={stage} className="smart-flow-step">
+                <span className="smart-flow-index">0{index + 1}</span>
+                <span className="smart-flow-label">{stage}</span>
+                {index < architectureStages.length - 1 && <span className="smart-flow-arrow" aria-hidden="true">→</span>}
+              </div>
             ))}
           </div>
         </div>
-      </div>
 
-      <div className="bg-panel border border-copper/20 rounded-xl p-8 mb-12">
-        <h2 className="font-display text-3xl mb-6">How the platform works</h2>
-        <div className="space-y-4">
-          {flow.map((step, index) => (
-            <div key={step} className="flex gap-4 items-start">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-copper text-xs font-mono text-ink font-bold">
-                {index + 1}
-              </div>
-              <p className="font-body text-muted leading-relaxed">{step}</p>
+        <div className="grid gap-8 border-b border-white/10 py-7 md:grid-cols-2">
+          <div>
+            <h3 className="mb-4 font-display text-2xl text-ink">Six platform services</h3>
+            <ul className="grid gap-2 text-sm leading-relaxed text-muted sm:grid-cols-2">
+              {services.map((service) => (
+                <li key={service} className="flex items-start gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                  <span>{service}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 font-display text-2xl text-ink">Core stack</h3>
+            <div className="flex flex-wrap gap-2">
+              {['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Kafka', 'Temporal', 'Docker', 'Groq LLM'].map((tech) => (
+                <span key={tech} className="rounded-full border border-copper/25 bg-copper/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-copper">
+                  {tech}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="border border-copper/20 rounded-xl p-5">
-          <h3 className="font-display text-xl mb-3">Event-driven design</h3>
-          <p className="font-body text-muted leading-relaxed">
-            Services communicate asynchronously to keep recruitment operations decoupled,
-            resilient, and ready to scale across hiring pipelines.
-          </p>
+          </div>
         </div>
 
-        <div className="border border-copper/20 rounded-xl p-5">
-          <h3 className="font-display text-xl mb-3">AI-assisted matching</h3>
-          <p className="font-body text-muted leading-relaxed">
-            Semantic search and embedding-based matching help recruiters identify the most relevant
-            candidates faster and with less manual filtering.
-          </p>
+        <div className="border-b border-white/10 py-7">
+          <h3 className="mb-5 font-display text-2xl text-ink">How the platform works</h3>
+          <ol className="grid gap-x-8 gap-y-4 md:grid-cols-2">
+            {flow.map((step, index) => (
+              <li key={step} className="flex items-start gap-3">
+                <span className="font-mono text-xs text-signal">0{index + 1}</span>
+                <span className="text-sm leading-relaxed text-muted">{step}</span>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <div className="border border-copper/20 rounded-xl p-5">
-          <h3 className="font-display text-xl mb-3">Operational scalability</h3>
-          <p className="font-body text-muted leading-relaxed">
-            The architecture reflects production concerns such as workflow orchestration,
-            observability, and service ownership for real-world delivery pipelines.
-          </p>
+        <div className="grid gap-6 pt-7 md:grid-cols-3">
+          <div>
+            <h3 className="mb-2 font-display text-lg text-ink">Event-driven design</h3>
+            <p className="text-sm leading-relaxed text-muted">Kafka keeps services decoupled through asynchronous domain events.</p>
+          </div>
+          <div>
+            <h3 className="mb-2 font-display text-lg text-ink">AI-assisted matching</h3>
+            <p className="text-sm leading-relaxed text-muted">Embeddings and vector search help surface relevant candidates.</p>
+          </div>
+          <div>
+            <h3 className="mb-2 font-display text-lg text-ink">Durable workflows</h3>
+            <p className="text-sm leading-relaxed text-muted">Temporal coordinates long-running recruitment workflows.</p>
+          </div>
         </div>
       </div>
     </section>

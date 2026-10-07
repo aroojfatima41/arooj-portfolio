@@ -6,9 +6,9 @@ import { FaLinkedin } from 'react-icons/fa';
 
 const links = [
   { label: 'About', href: '#about' },
+  { label: 'Smart Hire', href: '#smart-hire' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Work', href: '#work' },
-  { label: 'Education', href: '#education' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -33,7 +33,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-lg px-2 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-muted transition-colors hover:bg-white/5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal sm:px-3 sm:text-[11px] ${link.label === 'Experience' ? 'hidden sm:inline-flex' : ''} ${link.label === 'Education' ? 'hidden lg:inline-flex' : ''} ${link.label === 'Contact' ? 'hidden md:inline-flex' : ''}`}
+              className={`rounded-lg px-2 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-muted transition-colors hover:bg-white/5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal sm:px-3 sm:text-[11px] ${link.label === 'Smart Hire' || link.label === 'Experience' ? 'hidden sm:inline-flex' : ''} ${link.label === 'Contact' ? 'hidden md:inline-flex' : ''}`}
             >
               {link.label}
             </Link>

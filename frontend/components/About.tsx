@@ -17,18 +17,12 @@ export default function About() {
             About
           </p>
           <h2 className="font-display mb-6 text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-6xl">
-            I started in circuits. I still think in systems.
+            Frontend depth. Systems perspective.
           </h2>
           <p className="mb-4 max-w-2xl font-body text-lg leading-relaxed text-muted md:text-xl">
-            My engineering foundation started with an Electrical Engineering degree,
-            understanding how systems connect at their lowest level. That instinct carried
-            into 7+ years specializing in production frontend systems, from responsive product
-            interfaces to micro-frontend architectures and technical leadership.
-          </p>
-          <p className="max-w-2xl font-body text-lg leading-relaxed text-muted md:text-xl">
-            I bring that frontend depth together with backend microservices, Docker, and Temporal
-            workflow orchestration. AI is an additional tool in my toolkit, not the center of my
-            engineering focus.
+            Electrical engineering taught me to reason about whole systems. I bring that mindset to
+            frontend leadership, production interfaces, and backend workflow design with Docker and
+            Temporal.
           </p>
         </div>
 

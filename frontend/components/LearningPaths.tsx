@@ -5,12 +5,12 @@ const backendPath = ['FastAPI', 'Docker', 'Kafka', 'Temporal'];
 
 export default function LearningPaths() {
   return (
-    <section id="learning-paths" className="section-rule px-6 py-20 md:py-24">
+    <section id="projects" className="section-rule px-6 py-20 md:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 max-w-2xl">
-          <p className="section-kicker mb-4">Beyond selected work</p>
+          <p className="section-kicker mb-4">Projects and continued learning</p>
           <h2 className="font-display text-3xl font-semibold text-ink md:text-4xl">
-            Experiments &amp; Learning Paths
+            Projects &amp; Learning Paths
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted">
             Smaller projects and focused explorations, kept separate from production-scale case studies.

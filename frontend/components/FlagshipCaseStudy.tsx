@@ -33,9 +33,9 @@ const screenshots = [
   },
 ];
 
-export default function FlagshipCaseStudy() {
+export default function FlagshipCaseStudy({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="section-rule px-6 py-24 md:py-32">
+    <section className={embedded ? 'mt-20 border-t border-white/10 pt-16' : 'section-rule px-6 py-24 md:py-32'}>
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex items-center gap-3">
           <span className="section-kicker">Flagship case study</span>
