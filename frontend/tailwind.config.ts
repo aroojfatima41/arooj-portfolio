@@ -5,12 +5,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: '#0B1220',
-        panel: '#121B2E',
-        copper: '#D98F4F',
-        signal: '#5EEAD4',
-        ink: '#E8EDF4',
-        muted: '#8A96AB',
+        base: '#0B1427',
+        panel: '#121D33',
+        copper: '#60A5FA',
+        signal: '#38BDF8',
+        ink: '#EDF2FB',
+        muted: '#9AA8BE',
       },
       fontFamily: {
         display: ['var(--font-display)'],

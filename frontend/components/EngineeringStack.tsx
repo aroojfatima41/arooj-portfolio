@@ -25,7 +25,7 @@ const groups = [
   },
   {
     label: 'Applied AI',
-    items: ['Embeddings', 'Vector Search', 'LLM Integration'],
+    items: ['Embeddings', 'Vector Search', 'LLM Integration', 'Sentence Transformers', 'Semantic Matching'],
     size: 'lg:col-span-1',
   },
 ];
@@ -49,7 +49,7 @@ export default function EngineeringStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className={`rounded-2xl border border-white/10 bg-panel/55 p-5 transition-colors duration-300 hover:border-copper/35 ${group.size} ${group.label === 'Applied AI' ? 'opacity-75' : ''}`}
+              className={`rounded-2xl border border-white/10 bg-panel/55 p-5 transition-colors duration-300 hover:border-copper/35 ${group.size}`}
             >
               <div className="mb-6 flex items-center justify-between">
                 <h3 className="font-display text-xl font-semibold text-ink">{group.label}</h3>

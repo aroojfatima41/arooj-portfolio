@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion';
 
 const stats = [
-  { value: '7+', label: 'years in engineering' },
-  { value: '90%+', label: 'test coverage' },
-  { value: '6–7', label: 'engineers led' },
-  { value: '6', label: 'services in Smart Hire' },
+  { label: 'Experience', value: '7+ Years' },
+  { label: 'Test Coverage', value: '90%+' },
+  { label: 'Team Led', value: '6–7 Engineers' },
+  { label: 'Systems Built', value: '6 Microservices' },
 ];
 
 export default function StatStrip() {
@@ -22,11 +22,11 @@ export default function StatStrip() {
             transition={{ duration: 0.4, delay: index * 0.06 }}
             className={`px-4 first:pl-0 md:px-6 ${index > 0 ? 'md:border-l md:border-white/10' : ''}`}
           >
-            <p className="font-display text-2xl font-semibold leading-none text-ink md:text-3xl">
-              {stat.value}
-            </p>
-            <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.12em] text-muted md:text-[10px]">
+            <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted md:text-[10px]">
               {stat.label}
+            </p>
+            <p className="mt-2 font-display text-2xl font-semibold leading-none text-ink md:text-3xl">
+              {stat.value}
             </p>
           </motion.div>
         ))}

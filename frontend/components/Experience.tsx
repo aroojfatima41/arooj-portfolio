@@ -17,6 +17,7 @@ type Role = {
   achievements: string[];
   skills: string[];
   screenshots?: Screenshot[];
+  stats?: string[];
 };
 
 const roles: Role[] = [
@@ -32,6 +33,12 @@ const roles: Role[] = [
       'Built DynamoDB-backed seat assignments, audit logs, bulk allocation, and temporary expiry.',
     ],
     skills: ['React 19', 'Next.js', 'TypeScript', 'DynamoDB', 'BambooHR', 'Slack'],
+    stats: [
+      '5+ integrations: BambooHR, Slack, Pinpoint ATS',
+      'Real-time seat-level assignment',
+      'Automated employee ID generation',
+      'Audit-logged production system',
+    ],
     screenshots: [
       {
         title: 'HR Suite',
@@ -185,16 +192,27 @@ function TimelineNode({ role }: { role: Role }) {
               </div>
             </div>
 
+            {role.stats && (
+              <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-4" aria-label={`${role.org} proof points`}>
+                {role.stats.map((stat, index) => (
+                  <div key={stat} className="min-h-24 rounded-xl border border-white/10 bg-black/15 p-4">
+                    <span className="font-mono text-[10px] text-copper">0{index + 1}</span>
+                    <p className="mt-3 text-sm font-medium leading-snug text-ink">{stat}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {role.screenshots && (
               <div className={`mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 ${role.screenshots.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
                 {role.screenshots.map((screenshot) => (
-                  <figure key={screenshot.title} className="overflow-hidden rounded-xl border border-white/10 bg-[#101a2b]">
-                    <div className="relative aspect-[1.5] w-full bg-white">
+                  <figure key={screenshot.title} className="group overflow-hidden rounded-xl border border-white/10 bg-[#101a2b]">
+                    <div className="relative aspect-[1.5] w-full overflow-hidden bg-white">
                       <Image
                         src={screenshot.src}
                         alt={screenshot.alt}
                         fill
-                        className="object-contain"
+                        className="object-contain transition-transform duration-500 ease-out hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       />
                     </div>

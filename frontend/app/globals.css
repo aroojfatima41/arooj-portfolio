@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b1220;
-  --foreground: #e8edf4;
+  --background: #0b1427;
+  --foreground: #edf2fb;
 }
 
 @theme inline {
@@ -19,10 +19,10 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(217, 143, 79, 0.12), transparent 26%),
-    linear-gradient(180deg, #09131f 0%, #0b1220 32%, #0d1525 100%);
+    radial-gradient(ellipse at 72% 18%, rgba(37, 99, 235, 0.08), transparent 32%),
+    linear-gradient(180deg, #0a1325 0%, #0d172b 48%, #0b1427 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
 }
 
 .section-rule {
@@ -30,7 +30,7 @@ body {
 }
 
 .section-kicker {
-  color: #5eead4;
+  color: #60a5fa;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.22em;
@@ -49,7 +49,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, transparent 65%, #0b1220 100%);
+  background: linear-gradient(180deg, transparent 65%, #0b1427 100%);
   content: '';
   pointer-events: none;
 }
@@ -157,8 +157,8 @@ details[open] .details-chevron {
 }
 
 ::selection {
-  background: rgba(94, 234, 212, 0.25);
-  color: #f4f9ff;
+  background: rgba(96, 165, 250, 0.3);
+  color: #ffffff;
 }
 
 * {

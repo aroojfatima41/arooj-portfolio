@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowDownRight, ArrowRight, Download } from 'lucide-react';
+import { ArrowDownRight, ArrowRight } from 'lucide-react';
 
 const expertise = [
   {
@@ -28,7 +28,7 @@ const expertise = [
 export default function Hero() {
   return (
     <section id="about" className="hero-grid relative isolate flex min-h-[92vh] items-center overflow-hidden px-6 pb-20 pt-32 md:pt-36">
-      <div className="hero-glow absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(217,143,79,0.16),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(94,234,212,0.12),_transparent_28%)]" />
+      <div className="hero-glow absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_28%_40%,_rgba(217,143,79,0.16),_transparent_42%),radial-gradient(ellipse_at_82%_78%,_rgba(94,234,212,0.10),_transparent_35%)]" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
         <motion.div
@@ -43,39 +43,31 @@ export default function Hero() {
 
           <h1 className="font-display text-5xl font-semibold leading-[0.95] tracking-[-0.04em] text-ink md:text-7xl lg:text-8xl">
             Senior Frontend
-            <span className="mt-2 block text-copper">Engineer.</span>
+            <span className="mt-2 block bg-gradient-to-r from-[#38BDF8] to-[#8B5CF6] bg-clip-text text-transparent">Engineer.</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted md:text-xl">
             I lead frontend delivery for enterprise products, with 7+ years across React, TypeScript,
-            and micro-frontend architecture. Electrical engineering shaped how I reason across systems;
-            I apply that to backend services and durable workflows with Docker and Temporal.
+            and micro-frontend architecture. AI and backend systems are a growing part of how I build,
+            alongside the frontend work that has been my foundation.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <div className="flex flex-wrap gap-3">
               <Link
                 href="#projects"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#5EEAD4] px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-[#0B1220] transition-colors duration-200 hover:bg-[#8AF2E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#7C3AED] px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(37,99,235,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(124,58,237,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60A5FA]"
               >
                 View my work
                 <ArrowRight size={15} aria-hidden="true" />
               </Link>
               <Link
                 href="#experience"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-ink transition-colors duration-200 hover:border-signal/50 hover:text-signal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#38BDF8]/60 px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#7DD3FC] transition-colors duration-200 hover:border-[#A78BFA] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60A5FA]"
               >
                 Explore experience
                 <ArrowDownRight size={15} aria-hidden="true" />
               </Link>
-              <a
-                href="/arooj-fatima-resume.pdf"
-                download="Arooj-Fatima-Resume.pdf"
-                className="inline-flex items-center gap-2 rounded-xl border border-signal/40 bg-signal/10 px-4 py-3 font-mono text-xs uppercase tracking-[0.14em] text-signal transition-colors duration-200 hover:border-signal hover:bg-signal/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-              >
-                Download resume
-                <Download size={15} aria-hidden="true" />
-              </a>
             </div>
           </div>
 
