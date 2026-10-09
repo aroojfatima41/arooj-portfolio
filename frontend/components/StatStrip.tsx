@@ -12,7 +12,7 @@ const stats = [
 export default function StatStrip() {
   return (
     <section aria-label="Career highlights" className="section-rule border-b border-white/10 px-6 py-6 md:py-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 md:grid-cols-4 md:gap-y-0">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 lg:grid-cols-4 lg:gap-y-0">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -20,12 +20,12 @@ export default function StatStrip() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.4, delay: index * 0.06 }}
-            className={`px-4 first:pl-0 md:px-6 ${index > 0 ? 'md:border-l md:border-white/10' : ''}`}
+            className={`px-4 first:pl-0 md:px-6 ${index % 2 === 1 ? 'md:border-l md:border-white/10' : ''} ${index > 0 ? 'lg:border-l lg:border-white/10' : ''}`}
           >
             <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted md:text-[10px]">
               {stat.label}
             </p>
-            <p className="mt-2 font-display text-2xl font-semibold leading-none text-ink md:text-3xl">
+            <p className="mt-2 font-display text-lg font-semibold leading-tight text-ink sm:text-2xl md:text-3xl">
               {stat.value}
             </p>
           </motion.div>

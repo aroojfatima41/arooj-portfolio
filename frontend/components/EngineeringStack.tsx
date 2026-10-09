@@ -36,7 +36,7 @@ export default function EngineeringStack() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
           <p className="section-kicker mb-4">Engineering stack</p>
-          <h2 className="whitespace-nowrap font-display text-4xl font-semibold tracking-[-0.03em] text-ink md:text-6xl">
+          <h2 className="whitespace-nowrap font-display text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl md:text-5xl xl:text-6xl">
             The tools behind the work.
           </h2>
         </div>

@@ -10,6 +10,11 @@ type Screenshot = {
   alt: string;
 };
 
+type LiveWork = {
+  url: string;
+  screenshots: Screenshot[];
+};
+
 type Role = {
   period: string;
   title: string;
@@ -18,6 +23,7 @@ type Role = {
   skills: string[];
   screenshots?: Screenshot[];
   stats?: string[];
+  liveWork?: LiveWork;
 };
 
 const roles: Role[] = [
@@ -26,11 +32,11 @@ const roles: Role[] = [
     title: 'Lead Frontend Engineer, HR Automations',
     org: 'Emumba',
     achievements: [
-      'Led frontend delivery for internal HR tools with React 19 and Next.js.',
       'Shipped onboarding, recognition, and interactive two-floor seating.',
       'Automated employee ID generation through BambooHR, Google Sheets, and hiring webhooks.',
       'Connected Pinpoint ATS and Slack for candidate syncs, notifications, and recognition posts.',
       'Built DynamoDB-backed seat assignments, audit logs, bulk allocation, and temporary expiry.',
+      'Maintained and improved the public Emumba website: fixed responsive layout issues across mobile and desktop, resolved slider and navigation menu behavior for smooth transitions, and handled content updates across multiple pages.',
     ],
     skills: ['React 19', 'Next.js', 'TypeScript', 'DynamoDB', 'BambooHR', 'Slack'],
     stats: [
@@ -56,6 +62,26 @@ const roles: Role[] = [
         alt: 'Interactive office seating plan with floor controls and seat status',
       },
     ],
+    liveWork: {
+      url: 'https://emumba.com',
+      screenshots: [
+        {
+          title: 'Company culture',
+          src: '/emumba/company-culture.png',
+          alt: 'Emumba website company culture and Ethos section',
+        },
+        {
+          title: 'Cloud migration',
+          src: '/emumba/cloud-migration.png',
+          alt: 'Emumba website AWS cloud migration service page',
+        },
+        {
+          title: 'Agentic systems',
+          src: '/emumba/agentic-systems.png',
+          alt: 'Emumba website homepage featuring agentic systems and services',
+        },
+      ],
+    },
   },
   {
     period: 'Feb 2021 — Oct 2025',
@@ -222,6 +248,55 @@ function TimelineNode({ role }: { role: Role }) {
                   </figure>
                 ))}
               </div>
+            )}
+
+            {role.liveWork && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45 }}
+                className="mt-6 border-t border-white/10 pt-5"
+              >
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-copper">
+                    Public website contributions
+                  </p>
+                  <a
+                    href={role.liveWork.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-signal transition-colors hover:text-ink"
+                  >
+                    Visit emumba.com
+                  </a>
+                </div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {role.liveWork.screenshots.map((screenshot, index) => (
+                    <motion.figure
+                      key={screenshot.title}
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.35, delay: index * 0.06 }}
+                      className="group overflow-hidden rounded-lg border border-copper/20"
+                    >
+                      <Image
+                        src={screenshot.src}
+                        alt={screenshot.alt}
+                        width={480}
+                        height={270}
+                        loading="lazy"
+                        className="aspect-video w-full object-cover transition-transform duration-500 ease-out hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      <figcaption className="border-t border-copper/20 bg-panel/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
+                        {screenshot.title}
+                      </figcaption>
+                    </motion.figure>
+                  ))}
+                </div>
+              </motion.div>
             )}
           </div>
         </details>
