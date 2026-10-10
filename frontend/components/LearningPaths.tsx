@@ -8,8 +8,8 @@ const featuredProjects = projects.filter((project) =>
 
 export default function LearningPaths() {
   return (
-    <section id="projects" className="section-rule px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="section-rule px-6 sm:px-8 lg:px-10 py-20 md:py-24">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-10 max-w-2xl">
           <p className="section-kicker mb-4">Selected projects</p>
           <h2 className="font-display text-3xl font-semibold text-ink md:text-4xl">

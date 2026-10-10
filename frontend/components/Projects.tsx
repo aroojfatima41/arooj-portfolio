@@ -65,8 +65,8 @@ export default function Projects() {
   const featuredProjects = projects.filter((project) => project.slug === 'smart-hire');
 
   return (
-    <section id="work" className="section-rule relative px-6 py-28 md:py-36">
-      <div className="mx-auto max-w-6xl">
+    <section id="work" className="section-rule relative px-6 sm:px-8 lg:px-10 py-28 md:py-36">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="section-kicker">Selected work</p>

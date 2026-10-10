@@ -32,8 +32,8 @@ const groups = [
 
 export default function EngineeringStack() {
   return (
-    <section id="stack" className="section-rule px-6 py-24 md:py-32">
-      <div className="mx-auto max-w-6xl">
+    <section id="stack" className="section-rule px-6 sm:px-8 lg:px-10 py-24 md:py-32">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-12 max-w-2xl">
           <p className="section-kicker mb-4">Engineering stack</p>
           <h2 className="whitespace-nowrap font-display text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl md:text-5xl xl:text-6xl">

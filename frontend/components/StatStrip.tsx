@@ -11,8 +11,8 @@ const stats = [
 
 export default function StatStrip() {
   return (
-    <section aria-label="Career highlights" className="section-rule border-b border-white/10 px-6 py-6 md:py-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 lg:grid-cols-4 lg:gap-y-0">
+    <section aria-label="Career highlights" className="section-rule border-b border-white/10 px-6 sm:px-8 lg:px-10 py-6 md:py-8">
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-y-6 lg:grid-cols-4 lg:gap-y-0">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}

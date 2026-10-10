@@ -1,172 +1,215 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Pause, Play, Quote } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
+import Image from 'next/image';
+import { useInView, useReducedMotion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 const recommendations = [
-  {
-    name: 'Gul Sicka Khan',
-    role: 'Software Engineer at Emumba',
-    relationship: 'Frontend teammate · Zero-trust cybersecurity',
-    quote:
-      "I had the pleasure of working with Arooj Fatima as a fellow frontend engineer on the zero-trust cybersecurity project at Emumba, where she was a senior member of our team. She has a strong grasp of frontend architecture and consistently brought clarity to complex technical decisions on the project. She was always generous with her time, whether mentoring, reviewing code, or helping the team work through tricky problems, and she pushed us toward writing cleaner, more maintainable code. Beyond the technical skills, she made our day-to-day work better, and I'd gladly work with her again.",
-  },
-  {
-    name: 'Yumna Abbasi',
-    role: 'Senior Full Stack Engineer',
-    relationship: 'Frontend teammate · Extreme Networks ZTNA',
-    quote:
-      'I worked with Arooj as a Senior Frontend Developer on the Extreme Networks ZTNA project for 3+ years, and her work consistently set the benchmark I measured my own against. She had a rare combination of technical depth and leadership. Beyond her exceptional frontend skills, she managed projects and delegated work with real skill, staying on top of the hardest decisions while personally taking on the toughest parts of the codebase. Her work ethic and technical skills have always impressed me. Any team would be fortunate to have her.',
-  },
-  {
-    name: 'Shah Zain',
-    role: 'Development Team Lead',
-    relationship: 'Project teammate',
-    quote:
-      'I had the opportunity to work alongside Arooj on a project, and she is exactly the kind of Senior Software Engineer you want on your team. She consistently delivered high quality code on time and always brought practical, smart suggestions to our technical discussions. Beyond her core engineering skills, she is a fantastic teammate who actively jumps in to help unblock peers so the project never stalls. Any engineering team would be incredibly lucky to have her onboard!',
-  },
-  {
-    name: 'Muhammad Aneeq',
-    role: 'Senior Software Engineer II at Emumba',
-    relationship: 'Teammate · Four years',
-    quote:
-      "I’ve had the pleasure of working with Arooj for the past four years, and throughout this time, I’ve seen her consistently demonstrate the qualities of a strong Senior Software Engineer and an effective team lead. She has strong technical skills and a great eye for code quality, is particularly good at code reviews, and ensures engineering best practices are followed. Arooj brings ownership and responsibility to her work, adapts quickly, supports her team, and keeps standards high. I highly recommend Arooj.",
-  },
-  {
-    name: 'Khizar Khan',
-    role: 'Senior Software Engineer at TeamO',
-    relationship: 'Direct manager · Four years',
-    quote:
-      'I worked with Arooj for four years, including a period where I led the team she was part of, and she is one of the few engineers I could hand a half-defined problem to and simply stop worrying about it. She thought through states, edge cases, performance, accessibility, and component design, and became the person the team leaned on for reviews and clear risk-raising. Arooj owns outcomes, raises the bar, and makes the people around her better. I would work with her again in a heartbeat.',
-  },
-  {
-    name: 'Sarwan Ahmed',
-    role: 'Senior Software Engineer at Emumba',
-    relationship: 'Cross-team collaborator · Three and a half years',
-    quote:
-      'I’ve had the opportunity to work with Arooj for around three and a half years, and she is one of the most talented and skilled frontend engineers I’ve worked with. She consistently demonstrated strong technical expertise, ownership, and professionalism. She took responsibility for getting issues to the finish line, asked the right questions, aligned with the team before starting development, and delivered quality work on time. I would highly recommend her to any engineering team.',
-  },
+  { name: 'Yumna Abbasi', src: '/recommendations/yumna-abbasi.png', width: 997, height: 430 },
+  { name: 'Gul Sicka Khan', src: '/recommendations/gul-sicka-khan.png', width: 1017, height: 367 },
+  { name: 'Khizar Khan', src: '/recommendations/khizar-khan.png', width: 991, height: 778 },
+  { name: 'Muhammad Aneeq', src: '/recommendations/muhammad-aneeq.png', width: 1006, height: 795 },
+  { name: 'Sarwan Ahmed', src: '/recommendations/sarwan-ahmed.png', width: 1033, height: 820 },
+  { name: 'Shah Zain', src: '/recommendations/shah-zain.png', width: 999, height: 483 },
 ];
 
 export default function Recommendations() {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const firstCardRef = useRef<HTMLAnchorElement>(null);
+  const dragStart = useRef<{ x: number; scrollLeft: number } | null>(null);
+  const didDrag = useRef(false);
+  const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [stepSize, setStepSize] = useState(0);
+  const [maxOffset, setMaxOffset] = useState(0);
   const prefersReducedMotion = useReducedMotion();
-  const activeRecommendation = recommendations[activeIndex];
+  const isVisible = useInView(viewportRef, { amount: 0.15 });
+  const maxIndex = stepSize > 0 ? Math.ceil(maxOffset / stepSize) : 0;
+
+  const measure = useCallback(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    const firstCard = firstCardRef.current;
+    if (!viewport || !track || !firstCard) return;
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0;
+    const nextStepSize = cardWidth + gap;
+    const nextMaxOffset = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+    setStepSize(nextStepSize);
+    setMaxOffset(nextMaxOffset);
+    const nextMaxIndex = nextStepSize > 0 ? Math.ceil(nextMaxOffset / nextStepSize) : 0;
+    activeIndexRef.current = Math.min(activeIndexRef.current, nextMaxIndex);
+    setActiveIndex((index) => Math.min(index, nextMaxIndex));
+  }, []);
 
   useEffect(() => {
-    if (isPaused || prefersReducedMotion) return;
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (viewportRef.current) observer.observe(viewportRef.current);
+    if (trackRef.current) observer.observe(trackRef.current);
+    return () => observer.disconnect();
+  }, [measure]);
 
+  const navigateTo = useCallback((index: number) => {
+    const nextIndex = Math.max(0, Math.min(maxIndex, index));
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+    viewportRef.current?.scrollTo({
+      left: Math.min(nextIndex * stepSize, maxOffset),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }, [maxIndex, maxOffset, prefersReducedMotion, stepSize]);
+
+  useEffect(() => {
+    if (isPaused || prefersReducedMotion || !isVisible) return;
     const intervalId = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % recommendations.length);
-    }, 9000);
-
+      const current = activeIndexRef.current;
+      navigateTo(current >= maxIndex ? 0 : current + 1);
+    }, 8000);
     return () => window.clearInterval(intervalId);
-  }, [isPaused, prefersReducedMotion]);
+  }, [isPaused, isVisible, maxIndex, navigateTo, prefersReducedMotion]);
+
+  function updateFromScroll() {
+    if (!stepSize) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const nextIndex = Math.min(maxIndex, Math.round(viewport.scrollLeft / stepSize));
+    activeIndexRef.current = nextIndex;
+    setActiveIndex((index) => index === nextIndex ? index : nextIndex);
+  }
+
+  function startMouseDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    dragStart.current = { x: event.clientX, scrollLeft: viewport.scrollLeft };
+    didDrag.current = false;
+  }
+
+  function moveMouseDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    const start = dragStart.current;
+    const viewport = viewportRef.current;
+    if (!start || !viewport) return;
+    const delta = event.clientX - start.x;
+    if (!didDrag.current && Math.abs(delta) < 5) return;
+    if (!didDrag.current) {
+      didDrag.current = true;
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    viewport.scrollLeft = start.scrollLeft - delta;
+    event.preventDefault();
+  }
+
+  function endMouseDrag() {
+    dragStart.current = null;
+  }
+
+  function preventClickAfterDrag(event: ReactMouseEvent<HTMLDivElement>) {
+    if (!didDrag.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    didDrag.current = false;
+  }
 
   function showPrevious() {
-    setActiveIndex((index) => (index - 1 + recommendations.length) % recommendations.length);
+    const current = activeIndexRef.current;
+    navigateTo(current <= 0 ? maxIndex : current - 1);
   }
 
   function showNext() {
-    setActiveIndex((index) => (index + 1) % recommendations.length);
+    const current = activeIndexRef.current;
+    navigateTo(current >= maxIndex ? 0 : current + 1);
   }
 
   return (
-    <section id="recommendations" className="section-rule px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section id="recommendations" className="section-rule px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="section-kicker mb-4">Recommendations</p>
-            <h2 className="font-display text-3xl font-semibold text-ink md:text-4xl">
-              In my colleagues’ words.
-            </h2>
+            <p className="section-kicker mb-3">Recommendations</p>
+            <h2 className="font-display text-3xl font-semibold text-ink md:text-4xl">In my colleagues’ words.</h2>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-            {String(activeIndex + 1).padStart(2, '0')} / {String(recommendations.length).padStart(2, '0')}
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted" aria-live="polite">
+            {String(Math.min(activeIndex + 1, recommendations.length)).padStart(2, '0')} / {String(recommendations.length).padStart(2, '0')}
           </p>
         </div>
 
         <div
-          className="overflow-hidden rounded-2xl border border-white/10 bg-panel/60 p-5 md:p-8"
+          ref={viewportRef}
+          role="region"
+          className="recommendations-viewport snap-x snap-mandatory cursor-grab overflow-x-auto active:cursor-grabbing"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onFocusCapture={() => setIsPaused(true)}
           onBlurCapture={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-              setIsPaused(false);
-            }
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsPaused(false);
           }}
+          onScroll={updateFromScroll}
+          onPointerDown={startMouseDrag}
+          onPointerMove={moveMouseDrag}
+          onPointerUp={endMouseDrag}
+          onPointerCancel={endMouseDrag}
+          onClickCapture={preventClickAfterDrag}
           aria-roledescription="carousel"
-          aria-label="Colleague recommendations"
+          aria-label="LinkedIn recommendations"
         >
-          <div className="relative min-h-[350px] md:min-h-[300px]">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.figure
-                key={activeRecommendation.name}
-                initial={prefersReducedMotion ? false : { opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={prefersReducedMotion ? undefined : { opacity: 0, x: -16 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-                className="pointer-events-none absolute inset-0 flex flex-col"
-                aria-live="polite"
+          <div ref={trackRef} className="flex w-max gap-4">
+            {recommendations.map((recommendation, index) => (
+              <a
+                key={recommendation.name}
+                ref={index === 0 ? firstCardRef : undefined}
+                href={recommendation.src}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open full-size LinkedIn recommendation from ${recommendation.name}`}
+                title={`Open full-size screenshot from ${recommendation.name}`}
+                className={`block w-[82vw] shrink-0 snap-start overflow-hidden rounded-xl border border-white/15 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.24)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC] sm:w-[56vw] md:w-[40vw] md:max-w-[460px] ${index === activeIndex ? 'ring-1 ring-[#38BDF8]/50' : ''}`}
               >
-                <Quote className="mb-4 h-7 w-7 text-signal" aria-hidden="true" />
-                <blockquote className="flex-1 text-base leading-relaxed text-ink md:text-lg">
-                  “{activeRecommendation.quote}”
-                </blockquote>
-                <figcaption className="mt-6 border-t border-white/10 pt-4">
-                  <p className="font-display text-lg font-semibold text-ink">{activeRecommendation.name}</p>
-                  <p className="mt-1 text-sm text-muted">{activeRecommendation.role}</p>
-                  <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
-                    {activeRecommendation.relationship} · {activeRecommendation.date}
-                  </p>
-                </figcaption>
-              </motion.figure>
-            </AnimatePresence>
-          </div>
-
-          <div className="relative z-10 mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
-            <div className="flex items-center gap-2" aria-label="Choose recommendation">
-              {recommendations.map((recommendation, index) => (
-                <button
-                  key={recommendation.name}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-label={`Show recommendation from ${recommendation.name}`}
-                  aria-current={index === activeIndex ? 'true' : undefined}
-                  className={`h-2.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal ${index === activeIndex ? 'w-7 bg-signal' : 'w-2.5 bg-white/25 hover:bg-white/50'}`}
+                <Image
+                  src={recommendation.src}
+                  alt={`LinkedIn recommendation screenshot written by ${recommendation.name}`}
+                  width={recommendation.width}
+                  height={recommendation.height}
+                  sizes="(min-width: 768px) 40vw, (min-width: 640px) 56vw, 82vw"
+                  className="block h-auto w-full select-none"
+                  draggable={false}
+                  priority={index < 4}
                 />
-              ))}
-            </div>
+              </a>
+            ))}
+          </div>
+        </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={showPrevious}
-                aria-label="Previous recommendation"
-                className="rounded-full border border-white/10 p-2 text-muted transition-colors hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-              >
-                <ChevronLeft size={17} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={showNext}
-                aria-label="Next recommendation"
-                className="rounded-full border border-white/10 p-2 text-muted transition-colors hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-              >
-                <ChevronRight size={17} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsPaused((paused) => !paused)}
-                aria-label={isPaused || prefersReducedMotion ? 'Play automatic slideshow' : 'Pause automatic slideshow'}
-                className="rounded-full border border-white/10 p-2 text-muted transition-colors hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-              >
-                {isPaused || prefersReducedMotion ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}
-              </button>
-            </div>
+        <div className="mt-4 flex items-center justify-between gap-4 border-t border-white/10 pt-4">
+          <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted">Drag or use the arrows to browse</p>
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={showPrevious}
+              aria-label="Previous recommendations"
+              className="rounded-full border border-white/10 p-2 text-muted hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+            >
+              <ChevronLeft size={17} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={showNext}
+              aria-label="Next recommendations"
+              className="rounded-full border border-white/10 p-2 text-muted hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+            >
+              <ChevronRight size={17} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsPaused((paused) => !paused)}
+              aria-label={isPaused || prefersReducedMotion ? 'Play automatic carousel' : 'Pause automatic carousel'}
+              className="rounded-full border border-white/10 p-2 text-muted hover:border-signal/50 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+            >
+              {isPaused || prefersReducedMotion ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}
+            </button>
           </div>
         </div>
       </div>

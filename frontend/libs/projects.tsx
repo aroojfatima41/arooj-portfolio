@@ -1,3 +1,5 @@
+import { smartHireProject } from './smartHire';
+
 export type Project = {
   slug: string;
   name: string;
@@ -10,10 +12,9 @@ export const projects: Project[] = [
   {
     slug: 'smart-hire',
     name: 'Smart Hire',
-    tagline: 'AI hiring platform for faster recruitment',
-    summary:
-      'An AI-powered recruitment platform that connects job discovery, candidate matching, and hiring workflows through event-driven microservices, vector search, and workflow orchestration.',
-    stack: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Kafka', 'Temporal', 'Docker', 'Groq LLM'],
+    tagline: smartHireProject.tagline,
+    summary: smartHireProject.projectSummary,
+    stack: smartHireProject.stack,
   },
   {
     slug: 'angular-todo-app',
@@ -33,10 +34,9 @@ export const projects: Project[] = [
   {
     slug: 'smart-hire-architecture-overview',
     name: 'Smart Hire',
-    tagline: 'AI hiring platform for smarter recruitment',
-    summary:
-      'A distributed hiring platform that automates candidate discovery, job matching, and recruitment workflows using AI, semantic search, and event-driven microservices to reduce manual screening effort and improve hiring efficiency.',
-    stack: ['System Design', 'Microservices', 'Kafka', 'Temporal', 'PostgreSQL', 'pgvector', 'LLM', 'Architecture'],
+    tagline: smartHireProject.tagline,
+    summary: smartHireProject.projectSummary,
+    stack: smartHireProject.stack,
   },
 ];
 

@@ -9,8 +9,8 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="section-rule relative px-6 py-28 md:py-36">
-      <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-5 md:gap-16">
+    <section id="about" className="section-rule relative px-6 sm:px-8 lg:px-10 py-28 md:py-36">
+      <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-5 md:gap-16">
         {/* Left: narrative */}
         <div className="md:col-span-3">
           <p className="section-kicker mb-4">

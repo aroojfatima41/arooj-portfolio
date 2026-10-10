@@ -19,7 +19,7 @@ const technologies = [
 
 export default function AngularTodoCaseStudy() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <section className="mx-auto max-w-5xl px-6 sm:px-8 lg:px-10 py-20 md:py-28">
       <header className="max-w-3xl">
         <p className="section-kicker mb-5">Modern frontend practice project</p>
         <h1 className="font-display text-5xl font-semibold leading-[0.98] tracking-[-0.04em] text-ink md:text-7xl">

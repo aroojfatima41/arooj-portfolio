@@ -60,8 +60,8 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section-rule px-6 py-24 md:py-32">
-      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+    <section id="contact" className="section-rule px-6 sm:px-8 lg:px-10 py-24 md:py-32">
+      <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="section-kicker mb-4">Contact</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-ink md:text-5xl">
@@ -136,7 +136,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={state === 'sending'}
-              className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-[#5EEAD4] px-5 font-mono text-xs uppercase tracking-[0.12em] text-[#0B1220] transition-colors hover:bg-[#8AF2E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal disabled:cursor-wait disabled:opacity-60"
+              className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-[#38BDF8] px-5 font-mono text-xs uppercase tracking-[0.12em] text-[#0B1220] transition-colors hover:bg-[#7DD3FC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal disabled:cursor-wait disabled:opacity-60"
             >
               {state === 'sending' ? 'Sending' : 'Send message'}
               <Send size={15} aria-hidden="true" />

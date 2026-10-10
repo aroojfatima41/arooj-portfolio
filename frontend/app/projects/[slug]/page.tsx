@@ -17,7 +17,7 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return {};
   return {
-    title: `${project.name} — Arooj Fatima`,
+    title: `${project.name} | Arooj Fatima`,
     description: project.tagline,
   };
 }
@@ -32,13 +32,13 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   return (
-    <main className="min-h-screen pt-32">
+    <main className="min-h-screen pt-6 sm:pt-8">
       {slug === 'angular-todo-app' ? (
         <AngularTodoCaseStudy />
       ) : slug === 'smart-hire' || slug === 'smart-hire-architecture-overview' ? (
         <SmartHireCaseStudy />
       ) : (
-        <section className="max-w-3xl mx-auto px-6 py-20">
+        <section className="mx-auto max-w-3xl px-6 py-20 sm:px-8">
           <h1 className="font-display text-4xl text-ink mb-4">{project.name}</h1>
           <p className="font-body text-muted text-lg">{project.summary}</p>
         </section>

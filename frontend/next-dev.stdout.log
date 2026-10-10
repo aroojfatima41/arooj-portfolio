@@ -1,0 +1,17 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.27.128.1:3000
+✓ Ready in 912ms
+✓ Running next.config.ts took 58ms
+Creating turbopack project {
+  dir: 'D:\\Personal Projects\\arooj-portfolio\\frontend',
+  testMode: true
+}
+
+○ Compiling / ...
+ GET / 200 in 5.6s (next.js: 5.0s, application-code: 582ms)
+ GET / 200 in 392ms (next.js: 48ms, application-code: 344ms)

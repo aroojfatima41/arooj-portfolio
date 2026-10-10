@@ -20,8 +20,8 @@ const screenshots = [
 
 export default function HrAutomationCaseStudy({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className={embedded ? 'mt-20 border-t border-white/10 pt-16' : 'section-rule px-6 py-24 md:py-32'}>
-      <div className="mx-auto max-w-6xl">
+    <section className={embedded ? 'mt-20 border-t border-white/10 pt-16' : 'section-rule px-6 sm:px-8 lg:px-10 py-24 md:py-32'}>
+      <div className="mx-auto max-w-5xl">
         <header className="mb-12 max-w-3xl">
           <p className="section-kicker mb-4">Emumba · HR Automations</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-ink md:text-6xl">

@@ -33,6 +33,14 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.recommendations-viewport {
+  scrollbar-width: none;
+}
+
+.recommendations-viewport::-webkit-scrollbar {
+  display: none;
+}
+
 .section-kicker {
   color: #60a5fa;
   font-family: var(--font-mono);
@@ -56,6 +64,33 @@ body {
   background: linear-gradient(180deg, transparent 65%, #0b1427 100%);
   content: '';
   pointer-events: none;
+}
+
+.hero-orb-one {
+  animation: hero-orb-drift-one 24s ease-in-out infinite;
+}
+
+.hero-orb-two {
+  animation: hero-orb-drift-two 29s ease-in-out infinite;
+}
+
+.hero-status-dot {
+  animation: hero-status-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hero-orb-drift-one {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(28px, -20px, 0); }
+}
+
+@keyframes hero-orb-drift-two {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-24px, 18px, 0); }
+}
+
+@keyframes hero-status-pulse {
+  0%, 100% { opacity: 0.75; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.12); }
 }
 
 .project-architecture {
@@ -93,55 +128,6 @@ body {
 .project-line-one { left: 21%; width: 27%; transform: rotate(24deg); }
 .project-line-two { left: 53%; width: 27%; transform: rotate(-24deg); }
 
-.smart-flow {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.smart-flow-step {
-  position: relative;
-  min-height: 6.5rem;
-  padding: 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.9rem;
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.smart-flow-index {
-  display: block;
-  color: #d98f4f;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-}
-
-.smart-flow-label {
-  display: block;
-  margin-top: 1.7rem;
-  color: #e8edf4;
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  line-height: 1.1;
-}
-
-.smart-flow-arrow {
-  position: absolute;
-  top: 50%;
-  right: -0.7rem;
-  z-index: 1;
-  color: #5eead4;
-  font-size: 1rem;
-}
-
-@media (max-width: 900px) {
-  .smart-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .smart-flow-arrow { display: none; }
-}
-
-@media (max-width: 560px) {
-  .smart-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 details[open] .details-chevron {
   transform: rotate(180deg);
 }
@@ -157,6 +143,12 @@ details[open] .details-chevron {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-experience-motion] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
   }
 }
 

@@ -1,6 +1,5 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import StatStrip from '@/components/StatStrip';
 import Experience from '@/components/Experience';
 import Recommendations from '@/components/Recommendations';
 import Education from '@/components/Education';
@@ -12,7 +11,6 @@ export default function Home() {
     <main id="top">
       <Header />
       <Hero />
-      <StatStrip />
       <Experience />
       <Education />
       <LearningPaths />
