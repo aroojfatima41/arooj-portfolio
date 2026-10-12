@@ -125,8 +125,8 @@ export default function Recommendations() {
   }
 
   return (
-    <section id="recommendations" className="section-rule px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
-      <div className="mx-auto max-w-6xl">
+    <section id="recommendations" className="section-rule px-6 py-12 sm:px-9 sm:py-16 lg:px-12">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-kicker mb-3">Recommendations</p>
@@ -176,7 +176,6 @@ export default function Recommendations() {
                   sizes="(min-width: 768px) 40vw, (min-width: 640px) 56vw, 82vw"
                   className="block h-auto w-full select-none"
                   draggable={false}
-                  priority={index < 4}
                 />
               </a>
             ))}

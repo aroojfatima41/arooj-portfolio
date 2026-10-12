@@ -1,8 +1,8 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Experience from '@/components/Experience';
+import CareerAtGlance from '@/components/CareerAtGlance';
 import Recommendations from '@/components/Recommendations';
-import Education from '@/components/Education';
+import Experience from '@/components/Experience';
 import LearningPaths from '@/components/LearningPaths';
 import Contact from '@/components/Contact';
 
@@ -11,10 +11,10 @@ export default function Home() {
     <main id="top">
       <Header />
       <Hero />
-      <Experience />
-      <Education />
-      <LearningPaths />
+      <CareerAtGlance />
       <Recommendations />
+      <Experience />
+      <LearningPaths />
       <Contact />
     </main>
   );

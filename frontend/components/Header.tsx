@@ -14,9 +14,9 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const sectionLinks = [
   { label: 'About', href: '#about', id: 'about' },
+  { label: 'Recommendations', href: '#recommendations', id: 'recommendations' },
   { label: 'Experience', href: '#experience', id: 'experience' },
   { label: 'Projects', href: '#projects', id: 'projects' },
-  { label: 'Recommendations', href: '#recommendations', id: 'recommendations' },
 ];
 
 const menuVariants: Variants = {

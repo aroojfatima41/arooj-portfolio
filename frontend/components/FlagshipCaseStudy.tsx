@@ -105,7 +105,6 @@ export default function FlagshipCaseStudy({ embedded = false }: { embedded?: boo
                     fill
                     className="object-contain"
                     sizes="(max-width: 1280px) 100vw, 50vw"
-                    priority={index < 2}
                   />
                 </div>
                 <figcaption className="border-t border-white/10 bg-[#0f1725] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-copper">

@@ -18,8 +18,10 @@ export type ExperienceChapterData = {
   level: string;
   company: string;
   role: string;
+  dateRange: string;
   railYears: string;
   year: string;
+  headline: string;
   metrics: ExperienceMetric[];
   bullets: [string, string, string];
   details: string[];
@@ -39,8 +41,10 @@ export const EXPERIENCE_CHAPTERS: ExperienceChapterData[] = [
     level: 'Lead',
     company: 'Emumba',
     role: 'Lead Frontend Engineer, HR Automations',
+    dateRange: 'Oct 2025 to Jul 2026 (9 months)',
     railYears: '2025 to 2026',
     year: '2026',
+    headline: 'Shipped candidate onboarding, recognition posts, and a two-floor interactive seating plan.',
     metrics: [
       {
         value: '4',
@@ -104,8 +108,10 @@ export const EXPERIENCE_CHAPTERS: ExperienceChapterData[] = [
     level: 'Senior',
     company: 'Extreme Networks (via Emumba)',
     role: 'Senior Software Engineer (Frontend)',
+    dateRange: 'Feb 2021 to Oct 2025 (4 years 8 months)',
     railYears: '2021 to 2025',
     year: '2021',
+    headline: 'Built micro-frontends across Public Cloud, Security Services, Access Management, and Inventory.',
     metrics: [
       { value: '6-7', label: 'Engineers led' },
       { value: 'about 80', prefix: 'about ', countTo: 80, label: 'People in the program' },
@@ -148,8 +154,10 @@ export const EXPERIENCE_CHAPTERS: ExperienceChapterData[] = [
     level: 'Developer',
     company: 'Aera Technology (via Emumba)',
     role: 'Frontend Developer',
+    dateRange: 'Aug 2019 to Dec 2020',
     railYears: '2019 to 2020',
     year: '2019',
+    headline: 'Improved build and load performance by 50% through Webpack and SWC optimization.',
     metrics: [
       { value: '50%', countTo: 50, suffix: '%', label: 'Faster build and load' },
     ],
