@@ -1,33 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { AnimatePresence, LayoutGroup, animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type Variants } from 'framer-motion';
-import { X } from 'lucide-react';
-import { createPortal } from 'react-dom';
+import { AnimatePresence, LayoutGroup, animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { Fragment, useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { EXPERIENCE_CHAPTERS, type ExperienceChapterData, type ExperienceMedia, type ExperienceMetric } from '@/libs/experience';
+import ScreenshotLightbox, { type ScreenshotSelection } from '@/components/ScreenshotLightbox';
 
-// The chapter order follows the progression named in the section heading.
-const CAREER_PATH = [...EXPERIENCE_CHAPTERS].reverse();
-
-const chapterVariants: Variants = {
-  hidden: (index: number) => ({
-    opacity: 0,
-    x: index === 0 ? -12 : 12,
-    y: index === 2 ? 18 : 24,
-  }),
-  visible: (index: number) => ({
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 0.7, ease: 'easeOut', delay: index === 0 ? 0 : index === 1 ? 0.16 : 0.28 },
-  }),
-};
-
-type LightboxSelection = {
-  media: ExperienceMedia;
-  trigger: HTMLButtonElement;
-};
+const CAREER_PATH = EXPERIENCE_CHAPTERS;
 
 function useFinePointer() {
   const [finePointer, setFinePointer] = useState(false);
@@ -104,15 +84,17 @@ function ChapterMetrics({ chapter, reduced }: { chapter: ExperienceChapterData; 
 function TiltMedia({
   media,
   index,
+  gallery,
   reduced,
   finePointer,
   onOpen,
 }: {
   media: ExperienceMedia;
   index: number;
+  gallery: ExperienceMedia[];
   reduced: boolean;
   finePointer: boolean;
-  onOpen: (media: ExperienceMedia, trigger: HTMLButtonElement) => void;
+  onOpen: (media: ExperienceMedia[], index: number, trigger: HTMLButtonElement) => void;
 }) {
   const canTilt = finePointer && !reduced;
   const restingX = index % 2 === 0 ? -0.1 : 0.1;
@@ -151,7 +133,7 @@ function TiltMedia({
       onPointerMove={handlePointerMove}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
-      onClick={(event) => onOpen(media, event.currentTarget)}
+      onClick={(event) => onOpen(gallery, index, event.currentTarget)}
       style={{ rotateX: canTilt ? rotateX : 0, rotateY: canTilt ? rotateY : 0, transformPerspective: 1200 }}
       aria-label={`Open ${media.title} screenshot`}
       className="group relative block w-[82vw] max-w-[22rem] shrink-0 snap-start overflow-hidden rounded-xl bg-[#101A2C] text-left shadow-[0_14px_34px_rgba(0,0,0,0.28)] outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC] sm:w-[58vw] lg:w-full"
@@ -181,118 +163,31 @@ function ProofGallery({
   media: ExperienceMedia[];
   reduced: boolean;
   finePointer: boolean;
-  onOpen: (media: ExperienceMedia, trigger: HTMLButtonElement) => void;
+  onOpen: (media: ExperienceMedia[], index: number, trigger: HTMLButtonElement) => void;
 }) {
   if (!media.length) return null;
 
-  const columns = media.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
-
   return (
-    <div className={`mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:thin] [scrollbar-color:rgba(125,211,252,0.35)_transparent] lg:grid lg:overflow-visible ${columns}`}>
-      {media.map((item, index) => (
-        <TiltMedia key={item.src} media={item} index={index} reduced={reduced} finePointer={finePointer} onOpen={onOpen} />
-      ))}
+    <div className="mt-5 flex flex-wrap items-center gap-4">
+      <TiltMedia media={media[0]} gallery={media} index={0} reduced={reduced} finePointer={finePointer} onOpen={onOpen} />
+      {media.length > 1 && (
+        <button
+          type="button"
+          onClick={(event) => onOpen(media, 0, event.currentTarget)}
+          className="rounded-md py-2 text-sm font-medium text-sky-200 underline decoration-sky-200/40 underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC]"
+        >
+          View all screenshots ({media.length})
+        </button>
+      )}
     </div>
-  );
-}
-
-function ExperienceLightbox({
-  selection,
-  onClose,
-}: {
-  selection: LightboxSelection;
-  onClose: () => void;
-}) {
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const reduced = useReducedMotion() === true;
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    closeRef.current?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        onClose();
-        return;
-      }
-
-      if (event.key !== 'Tab' || !dialogRef.current) return;
-      const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
-      requestAnimationFrame(() => {
-        if (selection.trigger.isConnected) selection.trigger.focus();
-      });
-    };
-  }, [onClose, selection.trigger]);
-
-  return createPortal(
-    <motion.div
-      data-experience-motion
-      initial={reduced ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={reduced ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: reduced ? 0 : 0.18, ease: 'easeOut' }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
-      className="fixed inset-0 z-[100] grid place-items-center bg-[#030712]/90 p-4 backdrop-blur-md"
-    >
-      <motion.div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={selection.media.title}
-        tabIndex={-1}
-        initial={reduced ? false : { opacity: 0, y: 12, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={reduced ? { opacity: 1 } : { opacity: 0, y: 8, scale: 0.99 }}
-        transition={{ duration: reduced ? 0 : 0.2, ease: 'easeOut' }}
-        className="relative w-full max-w-5xl rounded-2xl bg-[#101A2C] p-3 shadow-[0_30px_100px_rgba(0,0,0,0.55)] focus:outline-none sm:p-4"
-      >
-        <div className="mb-3 flex items-center justify-between gap-4 px-1">
-          <p className="font-mono text-xs text-[#D7DFEF]">{selection.media.title}</p>
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={onClose}
-            aria-label="Close screenshot viewer"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC]"
-          >
-            <X aria-hidden="true" size={20} />
-          </button>
-        </div>
-        <div className="relative mx-auto aspect-[16/10] max-h-[78vh] w-full overflow-hidden rounded-xl bg-black/30">
-          <Image src={selection.media.src} alt={selection.media.alt} fill sizes="(max-width: 1024px) 94vw, 80vw" className="object-contain" />
-        </div>
-      </motion.div>
-    </motion.div>,
-    document.body,
   );
 }
 
 function ExperienceChapter({
   chapter,
   index,
+  expanded,
+  onToggleDetails,
   reduced,
   finePointer,
   onActivate,
@@ -300,10 +195,12 @@ function ExperienceChapter({
 }: {
   chapter: ExperienceChapterData;
   index: number;
+  expanded: boolean;
+  onToggleDetails: (chapterId: string) => void;
   reduced: boolean;
   finePointer: boolean;
   onActivate: (index: number) => void;
-  onOpenMedia: (media: ExperienceMedia, trigger: HTMLButtonElement) => void;
+  onOpenMedia: (media: ExperienceMedia[], index: number, trigger: HTMLButtonElement) => void;
 }) {
   const chapterRef = useRef<HTMLElement>(null);
   const isActive = useInView(chapterRef, { margin: '-40% 0px -40% 0px' });
@@ -323,11 +220,6 @@ function ExperienceChapter({
     <motion.article
       ref={chapterRef}
       id={chapter.id}
-      custom={index}
-      variants={chapterVariants}
-      initial={reduced ? 'visible' : 'hidden'}
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.08 }}
       data-experience-motion
       className="relative isolate scroll-mt-28 border-b border-white/10 py-7 last:border-b-0 sm:py-9 lg:py-10"
     >
@@ -352,71 +244,104 @@ function ExperienceChapter({
           <h3 className="mt-1.5 max-w-3xl font-display text-2xl font-semibold leading-tight tracking-[-0.025em] text-ink sm:text-3xl lg:text-4xl">
             {chapter.role}
           </h3>
+          <p className="mt-2 font-mono text-xs text-[#91A7C1] sm:text-sm">{chapter.dateRange}</p>
         </header>
 
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#C7D2E4] sm:text-[15px]">{chapter.headline}</p>
         <ChapterMetrics chapter={chapter} reduced={reduced} />
 
-        <ul className="mt-4 max-w-3xl space-y-2 text-sm leading-relaxed text-[#C7D2E4] sm:mt-5 sm:text-[15px]">
-          {chapter.bullets.map((bullet, bulletIndex) => (
-            <motion.li
-              key={bullet}
-              data-experience-motion
-              initial={reduced ? false : { opacity: 0, y: 8 }}
-              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.55 }}
-              transition={{ duration: 0.32, delay: reduced ? 0 : bulletIndex * 0.055, ease: 'easeOut' }}
-              className="flex items-start gap-3"
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#91A7C1]">Key contributions and proof</p>
+          <button
+            type="button"
+            aria-expanded={expanded}
+            aria-controls={`${chapter.id}-details`}
+            onClick={() => onToggleDetails(chapter.id)}
+            className="inline-flex min-h-10 items-center gap-2 rounded-lg px-2 text-sm font-medium text-sky-200 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC]"
+          >
+            {expanded ? 'Hide details' : 'See details'}
+            <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: reduced ? 0 : 0.2 }}>
+              <ChevronDown size={16} aria-hidden="true" />
+            </motion.span>
+          </button>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {expanded && (
+            <motion.div
+              id={`${chapter.id}-details`}
+              key={`${chapter.id}-details`}
+              aria-hidden={!expanded}
+              initial={reduced ? false : { height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={reduced ? { height: 0, opacity: 1 } : { height: 0, opacity: 0 }}
+              transition={{ duration: reduced ? 0 : 0.34, ease: 'easeOut' }}
+              className="overflow-hidden"
             >
-              <span aria-hidden="true" className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#5EEAD4] to-[#60A5FA]" />
-              <span>{bullet}</span>
-            </motion.li>
-          ))}
-        </ul>
-
-        {chapter.details.length > 0 && (
-          <div className="mt-2 max-w-3xl space-y-1 text-sm leading-relaxed text-[#AEBBD0]">
-            {chapter.details.map((detail) => (
-              <p key={detail}>{detail}</p>
-            ))}
-          </div>
-        )}
-
-        <ul aria-label={`${chapter.company} technologies`} className="mt-6 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.06em] text-[#A9BAD0] sm:mt-7 sm:text-xs">
-          {chapter.tech.map((tech, techIndex) => (
-            <motion.li
-              key={tech}
-              data-experience-motion
-              initial={reduced ? false : { opacity: 0, y: 8 }}
-              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.8 }}
-              transition={{ duration: 0.24, delay: reduced ? 0 : techIndex * 0.045, ease: 'easeOut' }}
-              className="transition-colors duration-200 hover:text-[#7DD3FC]"
-            >
-              {tech}
-            </motion.li>
-          ))}
-        </ul>
-
-        {chapter.screenshots && (
-          <ProofGallery media={chapter.screenshots} reduced={reduced} finePointer={finePointer} onOpen={onOpenMedia} />
-        )}
-
-        {chapter.website && (
-          <div className="mt-5">
-            <p className="max-w-3xl text-xs leading-relaxed text-[#AEBBD0] sm:text-sm">
-              {chapter.website.sentence}{' '}
-              <a
-                href={chapter.website.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-sky-200 underline decoration-sky-200/40 underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC]"
+              <motion.ul
+                initial={reduced ? false : 'hidden'}
+                animate="visible"
+                variants={{ hidden: {}, visible: { transition: { delayChildren: reduced ? 0 : 0.12, staggerChildren: reduced ? 0 : 0.05 } } }}
+                className="mt-3 max-w-3xl space-y-2 text-sm leading-relaxed text-[#C7D2E4] sm:text-[15px]"
               >
-                {chapter.website.label}
-              </a>
-            </p>
-            <ProofGallery media={chapter.website.screenshots} reduced={reduced} finePointer={finePointer} onOpen={onOpenMedia} />
-          </div>
-        )}
+                {[...chapter.bullets.slice(1), ...chapter.details].map((bullet) => (
+                  <motion.li
+                    key={bullet}
+                    variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.24, ease: 'easeOut' } } }}
+                    className="flex items-start gap-3"
+                  >
+                    <span aria-hidden="true" className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#5EEAD4] to-[#60A5FA]" />
+                    <span>{bullet}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+
+              <ul aria-label={`${chapter.company} technologies`} className="mt-4 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.06em] text-[#A9BAD0] sm:text-xs">
+                {chapter.tech.slice(0, 6).map((tech, techIndex) => (
+                  <motion.li
+                    key={tech}
+                    initial={reduced ? false : { opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: reduced ? 0 : 0.2, delay: reduced ? 0 : techIndex * 0.05 }}
+                    className="transition-colors duration-200 hover:text-[#7DD3FC]"
+                  >
+                    {tech}
+                  </motion.li>
+                ))}
+              </ul>
+
+              {chapter.website && (
+                <p className="mt-4 max-w-3xl text-xs leading-relaxed text-[#AEBBD0] sm:text-sm">
+                  {chapter.website.sentence}{' '}
+                  <a
+                    href={chapter.website.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-sky-200 underline decoration-sky-200/40 underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC]"
+                  >
+                    {chapter.website.label}
+                  </a>
+                </p>
+              )}
+
+              {chapter.screenshots && (
+                <motion.div
+                  initial={reduced ? false : { opacity: 0, x: 18, rotateY: finePointer ? 5 : 0 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                  transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 150, damping: 20, delay: 0.16 }}
+                  className="[transform-style:preserve-3d]"
+                >
+                  <ProofGallery
+                    media={[...chapter.screenshots, ...(chapter.website?.screenshots ?? [])]}
+                    reduced={reduced}
+                    finePointer={finePointer}
+                    onOpen={onOpenMedia}
+                  />
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.article>
   );
@@ -427,7 +352,9 @@ export default function Experience() {
   const finePointer = useFinePointer();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeChapter, setActiveChapter] = useState(0);
-  const [lightbox, setLightbox] = useState<LightboxSelection | null>(null);
+  const [lightbox, setLightbox] = useState<ScreenshotSelection | null>(null);
+  const [openChapters, setOpenChapters] = useState<Set<string>>(() => new Set());
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start 120px', 'end end'] });
   const railProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.35 });
 
@@ -435,8 +362,29 @@ export default function Experience() {
     setActiveChapter((current) => current === index ? current : index);
   }, []);
 
-  const openMedia = useCallback((media: ExperienceMedia, trigger: HTMLButtonElement) => {
-    setLightbox({ media, trigger });
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 1023px)');
+    const update = () => setIsMobile(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+
+  const toggleDetails = useCallback((chapterId: string) => {
+    setOpenChapters((current) => {
+      const next = new Set(current);
+      if (next.has(chapterId)) {
+        next.delete(chapterId);
+      } else {
+        if (isMobile) next.clear();
+        next.add(chapterId);
+      }
+      return next;
+    });
+  }, [isMobile]);
+
+  const openMedia = useCallback((media: ExperienceMedia[], index: number, trigger: HTMLButtonElement) => {
+    setLightbox({ media, index, trigger });
   }, []);
 
   const closeLightbox = useCallback(() => setLightbox(null), []);
@@ -454,14 +402,15 @@ export default function Experience() {
       ref={sectionRef}
       id="experience"
       aria-labelledby="experience-heading"
-      className="section-rule relative px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
+      className="section-rule relative px-6 py-16 sm:px-9 sm:py-20 lg:px-12 lg:py-24"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-6xl">
         <header className="mb-10 max-w-4xl sm:mb-14">
           <p className="section-kicker mb-3">Experience</p>
-          <h2 id="experience-heading" className="font-display text-3xl font-semibold tracking-[-0.035em] text-ink sm:text-4xl lg:text-5xl">
-            From developer to lead
-          </h2>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <h2 id="experience-heading" className="font-display text-3xl font-semibold tracking-[-0.035em] text-ink sm:text-4xl lg:text-5xl">Experience</h2>
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#9AA8BE]">Most recent first</span>
+          </div>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#B8C5D8] sm:text-base">
             Seven years, three roles, one thread: building frontends that scale.
           </p>
@@ -528,6 +477,10 @@ export default function Experience() {
                   <ExperienceChapter
                     chapter={chapter}
                     index={index}
+                    expanded={isMobile
+                      ? openChapters.has(chapter.id) && [...openChapters][0] === chapter.id
+                      : openChapters.has(chapter.id)}
+                    onToggleDetails={toggleDetails}
                     reduced={reduced}
                     finePointer={finePointer}
                     onActivate={setActive}
@@ -541,7 +494,7 @@ export default function Experience() {
       </div>
 
       <AnimatePresence>
-        {lightbox && <ExperienceLightbox key={lightbox.media.src} selection={lightbox} onClose={closeLightbox} />}
+        {lightbox && <ScreenshotLightbox key={lightbox.media[lightbox.index].src} selection={lightbox} onClose={closeLightbox} />}
       </AnimatePresence>
     </section>
   );

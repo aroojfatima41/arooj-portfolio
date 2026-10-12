@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent as ReactPointerEvent } from 'react';
 import Link from 'next/link';
 import {
   animate,
@@ -30,6 +30,8 @@ const stackLayers = [
     items: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Embeddings', 'Groq', 'Docker'],
   },
 ];
+const HERO_STATUS_TEXT = 'Open to remote and Islamabad roles';
+const subscribeToNothing = () => () => {};
 const stats = [
   {
     label: 'Years experience',
@@ -133,7 +135,7 @@ function HeroStats({ reducedMotion }: { reducedMotion: boolean }) {
       role="group"
       aria-label="Career highlights"
       className="mt-6 grid grid-cols-2 gap-x-2 gap-y-2 border-t border-white/10 pt-4 xl:grid-cols-4"
-      initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: reducedMotion ? 0 : 0.3, delay: reducedMotion ? 0 : 0.9 }}
     >
@@ -159,7 +161,7 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
   const rotateX = useTransform(smoothY, [-1, 1], [4, -4]);
   const rotateY = useTransform(smoothX, [-1, 1], [-4, 4]);
 
-  function handlePointerMove(event: PointerEvent<HTMLElement>) {
+  function handlePointerMove(event: ReactPointerEvent<HTMLElement>) {
     if (reducedMotion || event.pointerType !== 'mouse' || !cardRef.current) return;
     const bounds = cardRef.current.getBoundingClientRect();
     const normalizedX = (event.clientX - bounds.left) / bounds.width;
@@ -191,10 +193,10 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
       ref={cardRef}
       id="stack"
       aria-labelledby="core-stack-title"
-      className="relative isolate overflow-hidden rounded-3xl border border-[#38BDF8]/25 bg-gradient-to-br from-[#0EA5E9]/10 via-panel/90 to-[#7C3AED]/10 p-4 shadow-[0_20px_60px_rgba(14,165,233,0.10)] sm:p-5"
+      className="relative isolate overflow-hidden rounded-3xl border border-[#38BDF8]/25 bg-gradient-to-br from-[#0EA5E9]/10 via-panel/90 to-[#7C3AED]/10 p-5 shadow-[0_20px_60px_rgba(14,165,233,0.10)] sm:p-7 lg:p-8"
       style={reducedMotion ? undefined : { rotateX, rotateY, transformPerspective: 1000 }}
       variants={cardVariants}
-      initial={reducedMotion ? false : 'hidden'}
+      initial={false}
       animate="visible"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -206,7 +208,7 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
       />
 
       <div className="relative z-10">
-        <div className="mb-4 flex items-end justify-between gap-3">
+        <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#7DD3FC]">How I build</p>
             <h2 id="core-stack-title" className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">Core tech stack</h2>
@@ -214,17 +216,17 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
           <span className="hidden rounded-full border border-[#38BDF8]/25 bg-[#38BDF8]/10 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#7DD3FC] sm:inline-flex">Frontend · systems · AI</span>
         </div>
 
-        <div className="relative space-y-2.5">
-          <div aria-hidden="true" className="absolute bottom-7 left-[1.05rem] top-7 w-px bg-gradient-to-b from-[#38BDF8]/50 via-[#7C3AED]/45 to-[#38BDF8]/25" />
+        <div className="relative space-y-4">
+          <div aria-hidden="true" className="absolute bottom-8 left-[1.375rem] top-8 w-px bg-gradient-to-b from-[#38BDF8]/50 via-[#7C3AED]/45 to-[#38BDF8]/25" />
           {stackLayers.map((layer, index) => (
             <motion.div
               key={layer.label}
               variants={layerVariants}
-              initial={reducedMotion ? false : 'hidden'}
+              initial={false}
               animate="visible"
-              className={`relative rounded-2xl border p-3 pl-10 sm:p-3.5 sm:pl-11 ${layer.featured ? 'border-[#38BDF8]/35 bg-[#0EA5E9]/10' : 'border-white/10 bg-[#080F1F]/45'}`}
+              className={`relative rounded-2xl border p-4 pl-12 sm:p-5 sm:pl-14 ${layer.featured ? 'border-[#38BDF8]/35 bg-[#0EA5E9]/10' : 'border-white/10 bg-[#080F1F]/45'}`}
             >
-              <span aria-hidden="true" className={`absolute left-2.5 top-4 flex h-5 w-5 items-center justify-center rounded-full border font-mono text-[8px] ${layer.featured ? 'border-[#38BDF8]/50 bg-[#0B1427] text-[#7DD3FC]' : 'border-white/15 bg-[#0B1427] text-muted'}`}>
+              <span aria-hidden="true" className={`absolute left-3 top-5 flex h-5 w-5 items-center justify-center rounded-full border font-mono text-[8px] ${layer.featured ? 'border-[#38BDF8]/50 bg-[#0B1427] text-[#7DD3FC]' : 'border-white/15 bg-[#0B1427] text-muted'}`}>
                 0{index + 1}
               </span>
               <p className={`mb-2 font-mono text-[9px] uppercase tracking-[0.16em] ${layer.featured ? 'text-[#7DD3FC]' : 'text-muted'}`}>{layer.label}</p>
@@ -250,13 +252,53 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
 export default function Hero() {
   const reducedMotionPreference = useReducedMotion();
   const reducedMotion = reducedMotionPreference === true;
+  const hydrated = useSyncExternalStore(subscribeToNothing, () => true, () => false);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef);
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const cursorOpacity = useMotionValue(0);
+  const smoothCursorX = useSpring(cursorX, { stiffness: 90, damping: 24 });
+  const smoothCursorY = useSpring(cursorY, { stiffness: 90, damping: 24 });
+  const smoothCursorOpacity = useSpring(cursorOpacity, { stiffness: 80, damping: 24 });
+  const buttonPointerX = useMotionValue(0);
+  const buttonPointerY = useMotionValue(0);
+  const buttonX = useSpring(buttonPointerX, { stiffness: 300, damping: 18 });
+  const buttonY = useSpring(buttonPointerY, { stiffness: 300, damping: 18 });
   const { scrollY } = useScroll();
   const scrollCueOpacity = useTransform(scrollY, [0, 100], [1, 0]);
 
+  function handleHeroPointerMove(event: ReactPointerEvent<HTMLElement>) {
+    if (reducedMotion || event.pointerType !== 'mouse') return;
+    const bounds = heroRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    cursorX.set(event.clientX - bounds.left - 180);
+    cursorY.set(event.clientY - bounds.top - 180);
+    cursorOpacity.set(0.34);
+  }
+
+  function handleHeroPointerLeave() {
+    cursorOpacity.set(0);
+    buttonPointerX.set(0);
+    buttonPointerY.set(0);
+  }
+
+  function handleButtonPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    if (reducedMotion || event.pointerType !== 'mouse') return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const rawX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
+    const rawY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
+    const distance = Math.hypot(rawX, rawY);
+    const scale = distance > 6 ? 6 / distance : 1;
+    buttonPointerX.set(rawX * scale);
+    buttonPointerY.set(rawY * scale);
+  }
+
   return (
-    <section id="about" className="hero-grid relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden px-5 pb-14 pt-24 sm:px-8 sm:pt-24 sm:pb-12 lg:px-10 lg:pt-20 lg:pb-10">
-      <div aria-hidden="true" className="hero-orb hero-orb-one pointer-events-none absolute -left-28 top-8 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.20),rgba(56,189,248,0.04)_45%,transparent_72%)] blur-3xl sm:h-96 sm:w-96" />
-      <div aria-hidden="true" className="hero-orb hero-orb-two pointer-events-none absolute -right-28 bottom-0 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18),rgba(124,58,237,0.04)_48%,transparent_72%)] blur-3xl sm:h-[26rem] sm:w-[26rem]" />
+    <section ref={heroRef} id="about" onPointerMove={handleHeroPointerMove} onPointerLeave={handleHeroPointerLeave} className="hero-grid relative isolate flex min-h-[calc(100svh-8rem)] items-center overflow-hidden px-6 pb-14 pt-24 sm:px-9 sm:pt-24 sm:pb-12 lg:px-12 lg:pt-20 lg:pb-10">
+      <div aria-hidden="true" className="hero-orb hero-orb-one pointer-events-none absolute -left-28 top-8 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.20),rgba(56,189,248,0.04)_45%,transparent_72%)] blur-3xl sm:h-96 sm:w-96" style={{ animationPlayState: heroInView && !reducedMotion ? 'running' : 'paused' }} />
+      <div aria-hidden="true" className="hero-orb hero-orb-two pointer-events-none absolute -right-28 bottom-0 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18),rgba(124,58,237,0.04)_48%,transparent_72%)] blur-3xl sm:h-[26rem] sm:w-[26rem]" style={{ animationPlayState: heroInView && !reducedMotion ? 'running' : 'paused' }} />
+      {!reducedMotion && <motion.div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 -z-10 h-[22.5rem] w-[22.5rem] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.12),rgba(124,58,237,0.05)_42%,transparent_72%)] blur-2xl" style={{ x: smoothCursorX, y: smoothCursorY, opacity: smoothCursorOpacity }} />}
 
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
         <div className="max-w-2xl">
@@ -268,15 +310,15 @@ export default function Hero() {
           >
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-signal sm:text-sm">AROOJ FATIMA</p>
             <span className="inline-flex min-h-8 items-center gap-2 rounded-full border border-emerald-300/25 bg-emerald-300/[0.08] px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-emerald-200 sm:text-[11px]">
-              <span aria-hidden="true" className="hero-status-dot h-2 w-2 rounded-full bg-emerald-300" />
-              Open to new roles
+              <span aria-hidden="true" className="hero-status-dot h-2 w-2 rounded-full bg-emerald-300" style={{ animationPlayState: hydrated && heroInView && !reducedMotion ? 'running' : 'paused' }} />
+              {HERO_STATUS_TEXT}
             </span>
           </motion.div>
 
           <motion.h1
             aria-label="Senior Frontend Engineer"
             variants={headlineVariants}
-            initial={reducedMotion ? false : 'hidden'}
+            initial={hydrated && !reducedMotion ? 'hidden' : false}
             animate="visible"
             className="font-display text-[clamp(2.25rem,6vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[clamp(3rem,3.5vw,3.75rem)]"
           >
@@ -291,22 +333,12 @@ export default function Hero() {
             <span className="mt-1 block overflow-hidden pb-[0.06em] bg-gradient-to-r from-[#38BDF8] to-[#8B5CF6] bg-clip-text text-transparent" aria-hidden="true">
               <motion.span className="relative inline-block" variants={headlineWordVariants}>
                 Engineer.
-                {!reducedMotion && (
-                  <motion.span
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6] to-[#38BDF8] bg-clip-text text-transparent"
-                    animate={{ opacity: [0, 0.55, 0] }}
-                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    Engineer.
-                  </motion.span>
-                )}
               </motion.span>
             </span>
           </motion.h1>
 
           <motion.p
-            initial={reducedMotion ? false : { opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, delay: reducedMotion ? 0 : 0.6 }}
             className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:mt-5 sm:text-lg"
@@ -315,18 +347,23 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={reducedMotion ? false : { opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, delay: reducedMotion ? 0 : 0.75 }}
             className="mt-5 flex flex-col gap-3 min-[420px]:flex-row sm:mt-6"
           >
-            <Link
+            <motion.div
+              onPointerMove={handleButtonPointerMove}
+              onPointerLeave={() => { buttonPointerX.set(0); buttonPointerY.set(0); }}
+              style={reducedMotion ? undefined : { x: buttonX, y: buttonY }}
+              className="inline-flex"
+            ><Link
               href="/projects/smart-hire"
               className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#7C3AED] px-4 py-3 font-sans text-sm font-semibold text-white shadow-[0_8px_28px_rgba(37,99,235,0.22)] transition-shadow hover:shadow-[0_10px_34px_rgba(124,58,237,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3FC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1427] sm:px-5"
             >
               Explore my backend project
               <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
-            </Link>
+            </Link></motion.div>
           </motion.div>
 
           <HeroStats reducedMotion={reducedMotion} />
