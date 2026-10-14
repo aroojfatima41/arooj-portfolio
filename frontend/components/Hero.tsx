@@ -211,7 +211,7 @@ function StackCard({ reducedMotion }: { reducedMotion: boolean }) {
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#7DD3FC]">How I build</p>
-            <h2 id="core-stack-title" className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">Core tech stack</h2>
+            <h2 id="core-stack-title" className="whitespace-nowrap font-display text-lg font-semibold tracking-tight text-ink sm:text-xl">Core tech stack</h2>
           </div>
           <span className="hidden rounded-full border border-[#38BDF8]/25 bg-[#38BDF8]/10 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#7DD3FC] sm:inline-flex">Frontend · systems · AI</span>
         </div>
@@ -300,7 +300,7 @@ export default function Hero() {
       <div aria-hidden="true" className="hero-orb hero-orb-two pointer-events-none absolute -right-28 bottom-0 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18),rgba(124,58,237,0.04)_48%,transparent_72%)] blur-3xl sm:h-[26rem] sm:w-[26rem]" style={{ animationPlayState: heroInView && !reducedMotion ? 'running' : 'paused' }} />
       {!reducedMotion && <motion.div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 -z-10 h-[22.5rem] w-[22.5rem] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.12),rgba(124,58,237,0.05)_42%,transparent_72%)] blur-2xl" style={{ x: smoothCursorX, y: smoothCursorY, opacity: smoothCursorOpacity }} />}
 
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">
         <div className="max-w-2xl">
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 8 }}
@@ -320,7 +320,7 @@ export default function Hero() {
             variants={headlineVariants}
             initial={hydrated && !reducedMotion ? 'hidden' : false}
             animate="visible"
-            className="font-display text-[clamp(2.25rem,6vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[clamp(3rem,3.5vw,3.75rem)]"
+            className="font-display text-[clamp(2.025rem,5.4vw,3.825rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[clamp(2.8rem,3.2vw,3.45rem)]"
           >
             <span className="block whitespace-nowrap" aria-hidden="true">
               <span className="mr-[0.18em] inline-block overflow-hidden pb-[0.06em]">

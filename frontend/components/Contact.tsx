@@ -61,7 +61,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-rule px-6 py-24 sm:px-9 lg:px-12 md:py-32">
-      <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="mx-auto grid max-w-4xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="section-kicker mb-4">Contact</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-ink md:text-5xl">

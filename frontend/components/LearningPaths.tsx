@@ -9,7 +9,7 @@ const smartHireTags = ['Python', 'FastAPI', 'PostgreSQL', 'Kafka', 'Temporal'];
 export default function LearningPaths() {
   return (
     <section id="projects" className="section-rule px-6 py-20 sm:px-9 lg:px-12 md:py-24">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-10 max-w-2xl">
           <p className="section-kicker mb-4">Selected projects</p>
           <h2 className="font-display text-3xl font-semibold text-ink md:text-4xl">

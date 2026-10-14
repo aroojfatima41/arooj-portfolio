@@ -233,7 +233,7 @@ function ExperienceChapter({
       <motion.span
         aria-hidden="true"
         style={{ y: reduced || !finePointer ? 0 : yearY }}
-        className="pointer-events-none absolute right-0 top-1 select-none font-display text-[clamp(7rem,15vw,13rem)] font-bold leading-none tracking-[-0.09em] text-transparent opacity-[0.06] [-webkit-text-stroke:1px_rgba(203,213,225,0.7)]"
+        className="pointer-events-none absolute right-0 top-1 select-none font-display text-[clamp(6.3rem,13.5vw,11.7rem)] font-bold leading-none tracking-[-0.09em] text-transparent opacity-[0.06] [-webkit-text-stroke:1px_rgba(203,213,225,0.7)]"
       >
         {chapter.year}
       </motion.span>
@@ -247,7 +247,7 @@ function ExperienceChapter({
           <p className="mt-2 font-mono text-xs text-[#91A7C1] sm:text-sm">{chapter.dateRange}</p>
         </header>
 
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#C7D2E4] sm:text-[15px]">{chapter.headline}</p>
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#C7D2E4] sm:text-[14px]">{chapter.headline}</p>
         <ChapterMetrics chapter={chapter} reduced={reduced} />
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
@@ -282,7 +282,7 @@ function ExperienceChapter({
                 initial={reduced ? false : 'hidden'}
                 animate="visible"
                 variants={{ hidden: {}, visible: { transition: { delayChildren: reduced ? 0 : 0.12, staggerChildren: reduced ? 0 : 0.05 } } }}
-                className="mt-3 max-w-3xl space-y-2 text-sm leading-relaxed text-[#C7D2E4] sm:text-[15px]"
+                className="mt-3 max-w-3xl space-y-2 text-sm leading-relaxed text-[#C7D2E4] sm:text-[14px]"
               >
                 {[...chapter.bullets.slice(1), ...chapter.details].map((bullet) => (
                   <motion.li
@@ -404,7 +404,7 @@ export default function Experience() {
       aria-labelledby="experience-heading"
       className="section-rule relative px-6 py-16 sm:px-9 sm:py-20 lg:px-12 lg:py-24"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-4xl">
         <header className="mb-10 max-w-4xl sm:mb-14">
           <p className="section-kicker mb-3">Experience</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

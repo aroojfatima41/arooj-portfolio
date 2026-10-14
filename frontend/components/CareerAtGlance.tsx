@@ -199,7 +199,7 @@ export default function CareerAtGlance() {
 
   return (
     <section ref={sectionRef} id="career-at-a-glance" aria-labelledby="career-glance-heading" className="section-rule px-6 py-8 sm:px-9 sm:py-10 lg:px-12">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="section-kicker mb-2">Career at a glance</p>

@@ -126,7 +126,7 @@ export default function Recommendations() {
 
   return (
     <section id="recommendations" className="section-rule px-6 py-12 sm:px-9 sm:py-16 lg:px-12">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-kicker mb-3">Recommendations</p>
